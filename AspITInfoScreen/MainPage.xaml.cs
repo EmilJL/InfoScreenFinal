@@ -57,14 +57,9 @@ namespace AspITInfoScreen
 
         private void SetDpTimer()
         {
-            DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(0,0,5) };
+            DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(0,0,1) };
             timer.Tick += Dispatcher_Elapsed;
             timer.Start();
-        }
-
-        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            UpdateUiContent();
         }
 
         private void Dispatcher_Elapsed(object sender, object e)
@@ -73,8 +68,17 @@ namespace AspITInfoScreen
             {
                 counter++;
             }
-            UpdateUiContent();
-            counter++;
+
+            TBlockTime.Text = DateTime.Now.ToString("hh:mm:ss");
+
+            if (counter >= 300)
+            {
+                UpdateUiContent();
+                counter = 1;
+            } else
+            {
+                counter++;
+            }
         }
 
         private void UpdateUiContent()
@@ -84,7 +88,7 @@ namespace AspITInfoScreen
             SetComicStripImage(ImageComic);
             SetComicStripImage(ImageComic2, 1);
             TBlockDate.Text = Date.ToString("dd/MM/yyyy");
-            SetAdminMessage();
+            //SetAdminMessage();
             OpenRemoteModule();
         }
 

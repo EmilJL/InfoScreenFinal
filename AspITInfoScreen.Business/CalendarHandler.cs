@@ -17,8 +17,8 @@ namespace AspITInfoScreen.Business
         {
             CultureInfo myCI = new CultureInfo("da-DK");
             calendar = myCI.Calendar;
-            CalendarWeekRule CWR = myCI.DateTimeFormat.CalendarWeekRule;
-            DayOfWeek DOW = myCI.DateTimeFormat.FirstDayOfWeek;
+            CWR = myCI.DateTimeFormat.CalendarWeekRule;
+            DOW = myCI.DateTimeFormat.FirstDayOfWeek;
         }
         /// <summary>
         /// Return an int for the week number, based on the defined rules in the constructor

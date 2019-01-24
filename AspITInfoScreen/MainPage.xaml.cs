@@ -36,8 +36,10 @@ namespace AspITInfoScreen
         private Model model;
         private MealHandler mealHandler;
         private MessageHandler messageHandler;
+        private CalendarHandler calendarHandler;
         int counter;
         DateTime Date = DateTime.Now;
+
         public ObservableCollection<BitmapImage> PdfPages
         {
             get;
@@ -50,6 +52,7 @@ namespace AspITInfoScreen
             mealHandler = new MealHandler();
             dbHandler = new DBHandler();
             messageHandler = new MessageHandler();
+            calendarHandler = new CalendarHandler();
             model = dbHandler.Model;
             counter = 1;
             SetDpTimer();
@@ -69,7 +72,7 @@ namespace AspITInfoScreen
                 counter++;
             }
 
-            TBlockTime.Text = DateTime.Now.ToString("hh:mm:ss");
+            TBlockTime.Text = calendarHandler.GetStringDate("hh:mm:ss");
 
             if (counter >= 300)
             {
@@ -80,14 +83,14 @@ namespace AspITInfoScreen
                 counter++;
             }
         }
-
         private void UpdateUiContent()
         {
             
             SetWeatherImage();
             SetComicStripImage(ImageComic);
             SetComicStripImage(ImageComic2, 1);
-            TBlockDate.Text = Date.ToString("dd/MM/yyyy");
+            TBlockDate.Text = calendarHandler.GetStringDate("dd/MM/yyyy");
+            TBlockWeek.Text = calendarHandler.GetWeekNumber().ToString();
             //SetAdminMessage();
             OpenRemoteModule();
         }

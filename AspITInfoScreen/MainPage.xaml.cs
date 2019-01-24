@@ -197,8 +197,7 @@ namespace AspITInfoScreen
                 TBlockAdminMessage.Text += "[Tock] ";
             }
         }
-
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateUiContent();
         }

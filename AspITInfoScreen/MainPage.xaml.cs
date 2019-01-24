@@ -90,7 +90,7 @@ namespace AspITInfoScreen
             SetComicStripImage(ImageComic);
             SetComicStripImage(ImageComic2, 1);
             TBlockDate.Text = calendarHandler.GetStringDate("dd/MM/yyyy");
-            TBlockWeek.Text = calendarHandler.GetWeekNumber().ToString();
+            TBlockWeek.Text = "Uge nr. : " + calendarHandler.GetWeekNumber().ToString();
             //SetAdminMessage();
             OpenRemoteModule();
         }

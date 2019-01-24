@@ -94,5 +94,24 @@ namespace AspITInfoScreen.DAL
             Model model = new Model(lunchPlans, messages, meals, mealsVsLunchPlansCollection);
             return model;
         }
+
+        public List<object> GetViewMealsVsLunchPlans(object o)
+        {
+            using(SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM ViewMealsVsLunchPlansJoin";
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            //Finish sql view connection
+                        }
+                    }
+                }
+            }
+        }
     }
 }

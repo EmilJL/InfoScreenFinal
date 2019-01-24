@@ -92,6 +92,7 @@ namespace AspITInfoScreen
             TBlockWeek.Text = "Uge nr. : " + calendarHandler.GetWeekNumber().ToString();
             //SetAdminMessage();
             OpenRemoteModule();
+            GetMealPlan();
         }
 
         /// <summary>
@@ -153,6 +154,12 @@ namespace AspITInfoScreen
             TBlockAdminMessageTitle.VerticalAlignment = VerticalAlignment.Top;
             TBlockAdminMessageTitle.Text = title;
             TBlockAdminMessage.Text = msg;
+        }
+
+        private void GetMealPlan()
+        {
+            int id = model.LunchPlans.Where(l => l.Week == calendarHandler.GetWeekNumber()).FirstOrDefault().Id;
+            List<DAL.Entities.Meal> meals = mealHandler.GetMealsForLunchPlan(id);
         }
         /// <summary>
         /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.

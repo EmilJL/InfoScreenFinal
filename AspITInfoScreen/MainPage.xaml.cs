@@ -38,7 +38,6 @@ namespace AspITInfoScreen
         private MessageHandler messageHandler;
         private CalendarHandler calendarHandler;
         int counter;
-        DateTime Date = DateTime.Now;
 
         public ObservableCollection<BitmapImage> PdfPages
         {
@@ -127,7 +126,7 @@ namespace AspITInfoScreen
             try
             {
                 BitmapImage comic = new BitmapImage();
-                string url = "https://" + "d1ejxu6vysztl5.cloudfront.net/comics/garfield/" + Date.ToString("yyyy") + "/" + Date.AddDays(-deductDays).ToString("yyyy-MM-dd") + ".gif";
+                string url = "https://" + "d1ejxu6vysztl5.cloudfront.net/comics/garfield/" + calendarHandler.GetStringDate("yyyy") + "/" + calendarHandler.GetDate().AddDays(-deductDays).ToString("yyyy-MM-dd") + ".gif";
                 Uri address = new Uri(url);
 
                 comic.DecodePixelType = DecodePixelType.Logical;

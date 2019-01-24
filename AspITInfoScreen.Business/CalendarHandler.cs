@@ -37,5 +37,10 @@ namespace AspITInfoScreen.Business
         {
             return DateTime.Now.ToString(format);
         }
+
+        public DateTime GetDate()
+        {
+            return DateTime.Now;
+        }
     }
 }

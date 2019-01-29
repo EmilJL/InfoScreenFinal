@@ -94,24 +94,30 @@ namespace AspITInfoScreen.DAL
             Model model = new Model(lunchPlans, messages, meals, mealsVsLunchPlansCollection);
             return model;
         }
-
-        public List<object> GetViewMealsVsLunchPlans(object o)
+        
+        public static ObservableCollection<ViewMealsVsLunchPlansJoin> GetViewMealsVsLunchPlans(int week)
         {
-            using(SqlConnection conn = new SqlConnection(connectionString))
+            var weeklyMenuCollection = new ObservableCollection<ViewMealsVsLunchPlansJoin>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM ViewMealsVsLunchPlansJoin";
+                    cmd.CommandText = $"SELECT * FROM ViewMealsVsLunchPlansJoin WHERE Week = {week}";
                     using(SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while(reader.Read())
                         {
-                            //Finish sql view connection
+                            var item = new ViewMealsVsLunchPlansJoin();
+                            item.Weekday = reader.GetString(0);
+                            item.Meal = reader.GetString(1);
+                            weeklyMenuCollection.Add(item);
                         }
                     }
                 }
             }
+            return weeklyMenuCollection;
         }
+        
     }
 }

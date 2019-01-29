@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AspITInfoScreen.DAL;
+using AspITInfoScreen.DAL.Entities;
 
 namespace AspITInfoScreen.Business
 {
@@ -20,6 +21,18 @@ namespace AspITInfoScreen.Business
             LunchPlan lunchPlan = Model.LunchPlans.Where(l => l.Week == week).FirstOrDefault();
             return lunchPlan;
         }
-
+        public List<ViewMealsVsLunchPlansJoin> GetMealsForWeek(int week)
+        {
+            var mealsForWeek = Model.MealsVsLunchPlans.Where(mvsl => mvsl.LunchPlanId == GetLunchPlanForWeek(week).Id);
+            List<ViewMealsVsLunchPlansJoin> result = new List<ViewMealsVsLunchPlansJoin>();
+            foreach (MealsVsLunchPlans mvsl in mealsForWeek)
+            {
+                ViewMealsVsLunchPlansJoin meal = new ViewMealsVsLunchPlansJoin();
+                meal.Meal = Model.Meals.Where(m => m.Id == mvsl.MealId).FirstOrDefault().Description;
+                meal.Weekday = mvsl.Weekday;
+                result.Add(meal);
+            }
+            return result;
+        }
     }
 }

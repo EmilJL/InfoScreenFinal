@@ -21,6 +21,8 @@ using AspITInfoScreen.DAL;
 using Windows.Data.Pdf;
 using System.Net.Http;
 using System.Collections.ObjectModel;
+using AspITInfoScreen.DAL.Entities;
+using Microsoft.Toolkit.Uwp.UI.Controls.Microsoft_Toolkit_Uwp_UI_Controls_DataGrid_XamlTypeInfo;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -37,6 +39,7 @@ namespace AspITInfoScreen
         private MealHandler mealHandler;
         private MessageHandler messageHandler;
         private CalendarHandler calendarHandler;
+        private List<ViewMealsVsLunchPlansJoin> menu;
         int counter;
 
         public ObservableCollection<BitmapImage> PdfPages
@@ -158,8 +161,10 @@ namespace AspITInfoScreen
 
         private void GetMealPlan()
         {
-            int id = model.LunchPlans.Where(l => l.Week == calendarHandler.GetWeekNumber()).FirstOrDefault().Id;
-            List<DAL.Entities.Meal> meals = mealHandler.GetMealsForLunchPlan(id);
+            menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber());
+            DGridMealPlan.ItemsSource = menu;
+            DGridMealPlan.SelectedItem = false;
+
         }
         /// <summary>
         /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.

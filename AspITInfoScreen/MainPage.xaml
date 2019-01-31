@@ -30,7 +30,39 @@
         <TextBlock x:Name="TBlockTime" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Right" Margin="0,70,0,0" Text="HH:MM:SS" TextWrapping="NoWrap" VerticalAlignment="Top" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto"/>
         <TextBlock x:Name="TBlockWeek" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" Text="WeekNumberHere!" TextWrapping="NoWrap" RequestedTheme="Default" FontFamily="Italic" FontWeight="Bold" FontSize="48" Width="auto" Height="auto"/>
 
-        <controle:DataGrid x:Name="DGridMealPlan" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="True" Height="330" Width="500">
-        </controle:DataGrid>
+        <StackPanel x:Name="StackPanelMealPlan" Grid.Column="2" Grid.Row="1"
+                    BorderBrush="Black" BorderThickness="1"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Stretch"
+                    Spacing="10"
+                    Margin="20">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="TBlockMonday" Text="Mandag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockMondayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="TBlockTuesday" Text="Tirsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockTuesdayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="TBlockWednesday" Text="Onsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockWednesdayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="TBlockThursday" Text="Torsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockThursdayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="TBlockFriday" Text="Fredag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockFridayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- <controle:DataGrid 
+            x:Name="DGridMealPlan"  Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            AutoGenerateColumns="True" 
+            Height="330" 
+            Width="500"/> -->
     </Grid>
 </Page>

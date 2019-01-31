@@ -161,10 +161,39 @@ namespace AspITInfoScreen
 
         private void GetMealPlan()
         {
-            menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber());
-            DGridMealPlan.ItemsSource = menu;
-            DGridMealPlan.SelectedItem = false;
+            menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber()+1);
 
+            foreach (var item in menu)
+            {
+                switch (item.Weekday.ToLower())
+                {
+                    case "monday":
+                        TBlockMondayMeal.Text = item.Meal;
+                        break;
+                    case "tuesday":
+                        TBlockTuesdayMeal.Text = item.Meal;
+                        break;
+                    case "wednesday":
+                        TBlockWednesdayMeal.Text = item.Meal;
+                        break;
+                    case "thursday":
+                        TBlockThursdayMeal.Text = item.Meal;
+                        break;
+                    case "friday":
+                        TBlockFridayMeal.Text = item.Meal;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //Simplify?
+            Grid stackParent = (Grid) StackPanelMealPlan.Parent;
+            StackPanelMealPlan.Width = stackParent.ColumnDefinitions.FirstOrDefault().ActualWidth;
+            TBlockMonday.Width = StackPanelMealPlan.Width / 2;
+            TBlockTuesday.Width = StackPanelMealPlan.Width / 2;
+            TBlockWednesday.Width = StackPanelMealPlan.Width / 2;
+            TBlockThursday.Width = StackPanelMealPlan.Width / 2;
+            TBlockFriday.Width = StackPanelMealPlan.Width / 2;
         }
         /// <summary>
         /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.

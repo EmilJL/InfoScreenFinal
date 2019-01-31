@@ -123,6 +123,8 @@ namespace AspITInfoScreen
         /// <summary>
         /// Retrieves Garfield comic strips from Cloudfront.net.
         /// </summary>
+        /// <param name="container">GUI element</param>
+        /// <param name="deductDays">Used to retrieve old comics</param>
         private void SetComicStripImage(Image container, int deductDays = 0)
         {
             try
@@ -238,6 +240,11 @@ namespace AspITInfoScreen
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateUiContent();
+        }
+
+        private void ImageComic2_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+
         }
     }
 }

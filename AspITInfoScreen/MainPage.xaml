@@ -26,11 +26,11 @@
         <Image x:Name="ImageWeather" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0, 0,-630,-360"/>
         <Image x:Name="ImageModulePlan" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0"/>
         <!-- Garfield comic-->
-        <Image x:Name="ImageComic" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-        <Image x:Name="ImageComic2" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+        <Image x:Name="ImageComic" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+        <Image x:Name="ImageComic2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,0"/>
         <!-- Message -->
-        <TextBlock x:Name="TBlockAdminMessage" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.RowSpan="3" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="320" Width="630"/>
-        <TextBlock x:Name="TBlockAdminMessageTitle" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="633"/>
+        <TextBlock x:Name="TBlockAdminMessage" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.RowSpan="3" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="48"/>
+        <TextBlock x:Name="TBlockAdminMessageTitle" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="20,50,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="40"/>
         
         <!-- Clock -->
         <TextBlock x:Name="TBlockTime" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Right" Margin="0,0,20,0" Text="HH:MM:SS" TextWrapping="NoWrap" VerticalAlignment="Top" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto"/>

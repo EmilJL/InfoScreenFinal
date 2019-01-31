@@ -91,9 +91,7 @@ namespace AspITInfoScreen
             SetWeatherImage();
             SetComicStripImage(ImageComic);
             SetComicStripImage(ImageComic2, 1);
-            TBlockDate.Text = calendarHandler.GetStringDate("dd/MM/yyyy");
-            TBlockWeek.Text = "Uge nr. : " + calendarHandler.GetWeekNumber().ToString();
-            //SetAdminMessage();
+            SetAdminMessage();
             OpenRemoteModule();
             GetMealPlan();
         }

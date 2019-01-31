@@ -22,7 +22,6 @@ using Windows.Data.Pdf;
 using System.Net.Http;
 using System.Collections.ObjectModel;
 using AspITInfoScreen.DAL.Entities;
-using Microsoft.Toolkit.Uwp.UI.Controls.Microsoft_Toolkit_Uwp_UI_Controls_DataGrid_XamlTypeInfo;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 

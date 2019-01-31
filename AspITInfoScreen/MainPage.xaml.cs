@@ -161,7 +161,7 @@ namespace AspITInfoScreen
 
         private void GetMealPlan()
         {
-            menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber()+1);
+            menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber());
 
             foreach (var item in menu)
             {

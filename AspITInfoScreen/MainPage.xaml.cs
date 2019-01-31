@@ -54,6 +54,7 @@ namespace AspITInfoScreen
             dbHandler = new DBHandler();
             messageHandler = new MessageHandler();
             calendarHandler = new CalendarHandler();
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = calendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + calendarHandler.GetWeekNumber();
             model = dbHandler.Model;
             counter = 1;
             SetDpTimer();

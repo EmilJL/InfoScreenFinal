@@ -34,6 +34,5 @@ namespace AspITInfoScreen.DAL
         public ObservableCollection<LunchPlan> LunchPlans { get; set; }
         public ObservableCollection<Message> Messages { get; set; }
         public ObservableCollection<MealsVsLunchPlans> MealsVsLunchPlans { get; set; }
-        public ObservableCollection<ViewMealsVsLunchPlansJoin> WeeklyMenu { get; set; }
     }
 }

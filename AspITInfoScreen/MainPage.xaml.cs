@@ -76,6 +76,11 @@ namespace AspITInfoScreen
 
             TBlockTime.Text = calendarHandler.GetStringDate("hh:mm:ss");
 
+            if( counter % 10 == 0)
+            {
+                WeatherAndModuleToggle();
+            }
+
             if (counter >= 300)
             {
                 UpdateUiContent();
@@ -94,6 +99,7 @@ namespace AspITInfoScreen
             SetAdminMessage();
             OpenRemoteModule();
             GetMealPlan();
+            SetMealPlanWidth();
         }
 
         /// <summary>
@@ -107,8 +113,12 @@ namespace AspITInfoScreen
                 Uri address = new Uri("http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=2630&mode=long");
 
                 weather.DecodePixelType = DecodePixelType.Logical;
-                weather.DecodePixelWidth = (int)MyGrid.ColumnDefinitions.Select(c => c.ActualWidth).FirstOrDefault();
-                weather.DecodePixelHeight = (int)MyGrid.RowDefinitions.Select(c => c.ActualHeight).FirstOrDefault();
+                int cWidth = (int)MyGrid.ColumnDefinitions.Select(c => c.ActualWidth).FirstOrDefault() * 2;
+                int rHeight = (int)MyGrid.RowDefinitions.Select(c => c.ActualHeight).FirstOrDefault() * 2;
+                weather.DecodePixelWidth = cWidth;
+                weather.DecodePixelHeight = rHeight;
+                ImageWeather.MaxWidth = cWidth * 3;
+                ImageWeather.MaxHeight = rHeight * 2;
                 weather.UriSource = address;
 
                 ImageWeather.Source = weather;
@@ -186,14 +196,36 @@ namespace AspITInfoScreen
                         break;
                 }
             }
+        }
+        /// <summary>
+        /// Sets StackPanel and its elements width based on grid size.
+        /// </summary>
+        public void SetMealPlanWidth()
+        {
             //Simplify?
-            Grid stackParent = (Grid) StackPanelMealPlan.Parent;
-            StackPanelMealPlan.Width = stackParent.ColumnDefinitions.FirstOrDefault().ActualWidth;
-            TBlockMonday.Width = StackPanelMealPlan.Width / 2;
-            TBlockTuesday.Width = StackPanelMealPlan.Width / 2;
-            TBlockWednesday.Width = StackPanelMealPlan.Width / 2;
-            TBlockThursday.Width = StackPanelMealPlan.Width / 2;
-            TBlockFriday.Width = StackPanelMealPlan.Width / 2;
+            Grid stackParent = (Grid)StackPanelMealPlan.Parent;
+            StackPanelMealPlan.Width = stackParent.ColumnDefinitions.FirstOrDefault().ActualWidth * 2;
+            double tBlockWidth = StackPanelMealPlan.Width / 4;
+            //Monday
+            TBlockMonday.Width = tBlockWidth;
+            TBlockMondayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockMondayMeal.TextWrapping = TextWrapping.Wrap;
+            //Tuesday
+            TBlockTuesday.Width = tBlockWidth;
+            TBlockTuesdayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockTuesdayMeal.TextWrapping = TextWrapping.Wrap;
+            //Wednesday
+            TBlockWednesday.Width = tBlockWidth;
+            TBlockWednesdayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockWednesdayMeal.TextWrapping = TextWrapping.Wrap;
+            //Thursday
+            TBlockThursday.Width = tBlockWidth;
+            TBlockThursdayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockThursdayMeal.TextWrapping = TextWrapping.Wrap;
+            //Friday
+            TBlockFriday.Width = tBlockWidth;
+            TBlockFridayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockFridayMeal.TextWrapping = TextWrapping.Wrap;
         }
         /// <summary>
         /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.
@@ -241,10 +273,21 @@ namespace AspITInfoScreen
         {
             UpdateUiContent();
         }
-
-        private void ImageComic2_Holding(object sender, HoldingRoutedEventArgs e)
+        
+        /// <summary>
+        /// Toggles visibility of GUI elements weatherforecast and module plan.
+        /// </summary>
+       private void WeatherAndModuleToggle()
         {
-
+            if (ImageWeather.Visibility == Visibility.Collapsed)
+            {
+                ImageWeather.Visibility = Visibility.Visible;
+                ImageModulePlan.Visibility = Visibility.Collapsed;
+            } else
+            {
+                ImageWeather.Visibility = Visibility.Collapsed;
+                ImageModulePlan.Visibility = Visibility.Visible;
+            }
         }
     }
 }

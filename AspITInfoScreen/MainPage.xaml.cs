@@ -277,7 +277,7 @@ namespace AspITInfoScreen
         /// <summary>
         /// Toggles visibility of GUI elements weatherforecast and module plan.
         /// </summary>
-       private void WeatherAndModuleToggle()
+        private void WeatherAndModuleToggle()
         {
             if (ImageWeather.Visibility == Visibility.Collapsed)
             {

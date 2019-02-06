@@ -94,7 +94,10 @@ namespace AspITInfoScreen.DAL
             Model model = new Model(lunchPlans, messages, meals, mealsVsLunchPlansCollection);
             return model;
         }
-
+        /// <summary>
+        /// Gets the lastest message from the Database
+        /// </summary>
+        /// <returns>ViewAdminMessageJoin Object</returns>
         public ViewAdminMessageJoin GetMessagesView()
         {
             var message = new ViewAdminMessageJoin();
@@ -105,7 +108,7 @@ namespace AspITInfoScreen.DAL
                 {
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT * FROM ViewAdminMessageJoin ORDER BY Date DESC";
+                        cmd.CommandText = "SELECT TOP 1 * FROM ViewAdminMessageJoin ORDER BY Date DESC";
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())

@@ -157,18 +157,6 @@ namespace AspITInfoScreen
             }
         }
 
-        /// <summary>
-        /// Sets the AdminMessage elements to the maximum amount of characters allowed.
-        /// </summary>
-        private void GetMaxAdminMessage()
-        {
-            string msg = new string('W', 660);
-            string title = new string('W', 44);
-            TBlockAdminMessageTitle.VerticalAlignment = VerticalAlignment.Top;
-            TBlockAdminMessageTitle.Text = title;
-            TBlockAdminMessage.Text = msg;
-        }
-
         private void GetMealPlan()
         {
             menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber());
@@ -262,14 +250,6 @@ namespace AspITInfoScreen
             TBlockAdminMessage.Text = msg.Text;
             TBlockAdminMessageDate.Text = msg.Date.ToString("dd/MM/yyyy");
             TBlockAdminMessageAuthor.Text = msg.Username;
-            if (counter % 2 != 0)
-            {
-                TBlockAdminMessage.Text += "[Tick] ";
-            }
-            else
-            {
-                TBlockAdminMessage.Text += "[Tock] ";
-            }
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {

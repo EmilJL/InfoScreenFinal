@@ -35,9 +35,21 @@
         <Image x:Name="ImageComic" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>
         <Image x:Name="ImageComic2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,0"/>
         <!-- Message -->
-        <TextBlock x:Name="TBlockAdminMessage" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.RowSpan="3" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="48"/>
-        <TextBlock x:Name="TBlockAdminMessageTitle" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="20,50,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="40"/>
-        
+        <StackPanel x:Name="StackPanel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2"
+                    VerticalAlignment="Top" HorizontalAlignment="Left"
+                    Margin="10"
+                    Width="auto" Height="auto"
+                    Spacing="5">
+            <!-- Title -->
+            <TextBlock x:Name="TBlockAdminMessageTitle" Text="TextBlock" TextWrapping="Wrap" FontSize="48"/>
+            <!-- Date and author -->
+            <StackPanel Orientation="Horizontal" Spacing="10" Margin="5,0,0,0">
+                <TextBlock x:Name="TBlockAdminMessageDate" Text="dd/MM/yyyy"/>
+                <TextBlock x:Name="TBlockAdminMessageAuthor" Text="JOSA"/>
+            </StackPanel>
+            <!-- Message -->
+            <TextBlock x:Name="TBlockAdminMessage" Margin="10,0,0,0" Text="TextBlock" TextWrapping="Wrap" FontSize="40"/>
+        </StackPanel>
         <!-- Clock -->
         <TextBlock x:Name="TBlockTime" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Right" Margin="0,0,20,0" Text="HH:MM:SS" TextWrapping="NoWrap" VerticalAlignment="Top" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto"/>
         
@@ -48,31 +60,31 @@
                     HorizontalAlignment="Stretch"
                     Spacing="10"
                     Margin="20">
-            
+
             <StackPanel x:Name="StackPanelMonday" Orientation="Horizontal">
                 <TextBlock x:Name="TBlockMonday" Text="Mandag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
                 <TextBlock x:Name="TBlockMondayMeal" Text="404" FontSize="48"/>
             </StackPanel>
             <Border BorderBrush="Black" BorderThickness="1"/>
             <StackPanel x:Name="StackPanelTuesday" Orientation="Horizontal">
-                    <TextBlock x:Name="TBlockTuesday" Text="Tirsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                    <TextBlock x:Name="TBlockTuesdayMeal" Text="404" FontSize="48"/>
-                </StackPanel>
+                <TextBlock x:Name="TBlockTuesday" Text="Tirsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockTuesdayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
             <Border BorderBrush="Black" BorderThickness="1"/>
-                <StackPanel x:Name="StackPanelWednesday" Orientation="Horizontal">
-                    <TextBlock x:Name="TBlockWednesday" Text="Onsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                    <TextBlock x:Name="TBlockWednesdayMeal" Text="404" FontSize="48"/>
-                </StackPanel>
+            <StackPanel x:Name="StackPanelWednesday" Orientation="Horizontal">
+                <TextBlock x:Name="TBlockWednesday" Text="Onsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockWednesdayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
             <Border BorderBrush="Black" BorderThickness="1"/>
             <StackPanel x:Name="StackPanelThursday" Orientation="Horizontal">
-                    <TextBlock x:Name="TBlockThursday" Text="Torsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                    <TextBlock x:Name="TBlockThursdayMeal" Text="404" FontSize="48"/>
-                </StackPanel>
+                <TextBlock x:Name="TBlockThursday" Text="Torsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockThursdayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
             <Border BorderBrush="Black" BorderThickness="1"/>
-                <StackPanel x:Name="StackPanelFridayday" Orientation="Horizontal">
-                    <TextBlock x:Name="TBlockFriday" Text="Fredag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                    <TextBlock x:Name="TBlockFridayMeal" Text="404" FontSize="48"/>
-                </StackPanel>
+            <StackPanel x:Name="StackPanelFridayday" Orientation="Horizontal">
+                <TextBlock x:Name="TBlockFriday" Text="Fredag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                <TextBlock x:Name="TBlockFridayMeal" Text="404" FontSize="48"/>
+            </StackPanel>
             <Border BorderBrush="Black" BorderThickness="1"/>
         </StackPanel>
     </Grid>

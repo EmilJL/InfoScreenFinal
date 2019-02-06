@@ -94,5 +94,32 @@ namespace AspITInfoScreen.DAL
             Model model = new Model(lunchPlans, messages, meals, mealsVsLunchPlansCollection);
             return model;
         }
+
+        public ViewAdminMessageJoin GetMessagesView()
+        {
+            var message = new ViewAdminMessageJoin();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT * FROM ViewAdminMessageJoin ORDER BY Date DESC";
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                message.Username = reader.GetString(0);
+                                message.Header = reader.GetString(1);
+                                message.Date = reader.GetDateTime(2);
+                                message.Text = reader.GetString(3);
+                            }
+                        }
+                    }
+                }
+            }
+            return message;
+        }
     }
 }

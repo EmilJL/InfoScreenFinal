@@ -19,5 +19,10 @@ namespace AspITInfoScreen.Business
         {
             return model.Messages.OrderByDescending(m => m.Date).FirstOrDefault();
         }
+        public AspITInfoScreen.DAL.Entities.ViewAdminMessageJoin GetNewestViewMessage()
+        {
+            DbAccess dbAccess = new DbAccess();
+            return dbAccess.GetMessagesView();
+        }
     }
 }

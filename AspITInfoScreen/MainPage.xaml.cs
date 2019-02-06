@@ -256,10 +256,12 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetAdminMessage()
         {
-            Message msg = messageHandler.GetNewestMessage(model);
+            ViewAdminMessageJoin msg = messageHandler.GetNewestViewMessage();
 
             TBlockAdminMessageTitle.Text = msg.Header;
             TBlockAdminMessage.Text = msg.Text;
+            TBlockAdminMessageDate.Text = msg.Date.ToString("dd/MM/yyyy");
+            TBlockAdminMessageAuthor.Text = msg.Username;
             if (counter % 2 != 0)
             {
                 TBlockAdminMessage.Text += "[Tick] ";

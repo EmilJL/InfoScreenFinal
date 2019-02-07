@@ -112,6 +112,7 @@
     <Compile Include="MealHandler.cs" />
     <Compile Include="MessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RSSFeedHandler.cs" />
     <EmbeddedResource Include="Properties\AspITInfoScreen.Business.rd.xml" />
   </ItemGroup>
   <ItemGroup>

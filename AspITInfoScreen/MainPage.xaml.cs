@@ -38,6 +38,7 @@ namespace AspITInfoScreen
         private MealHandler mealHandler;
         private MessageHandler messageHandler;
         private CalendarHandler calendarHandler;
+        private RSSFeedHandler rSSFeedHandler;
         private List<ViewMealsVsLunchPlansJoin> menu;
         int counter;
 
@@ -54,6 +55,7 @@ namespace AspITInfoScreen
             dbHandler = new DBHandler();
             messageHandler = new MessageHandler();
             calendarHandler = new CalendarHandler();
+            rSSFeedHandler = new RSSFeedHandler("http://feeds.tv2.dk/nyhederne_seneste/rss");
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = calendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + calendarHandler.GetWeekNumber();
             model = dbHandler.Model;
             counter = 1;
@@ -79,6 +81,10 @@ namespace AspITInfoScreen
             if( counter % 10 == 0)
             {
                 WeatherAndModuleToggle();
+                if (rSSFeedHandler.NewsList.Count > 0)
+                {
+                    SetNews();
+                }
             }
 
             if (counter >= 300)
@@ -269,6 +275,23 @@ namespace AspITInfoScreen
             {
                 ImageWeather.Visibility = Visibility.Collapsed;
                 ImageModulePlan.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SetNews()
+        {
+            TV2NewsItem item = rSSFeedHandler.NewsList.FirstOrDefault();
+            try
+            {
+                TBlockNewsTitle.Text = item.Title;
+                TBlockNewspublishDate.Text = item.PubDate.ToString("dd/MM/yyyy");
+                TBlockNewsContent.Text = item.Description;
+                TBlockNewsAuthor.Text = item.Author.ToString();
+                rSSFeedHandler.NewsList.Remove(item);
+            }
+            catch (Exception err)
+            {
+                throw;
             }
         }
     }

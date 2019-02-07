@@ -111,6 +111,7 @@
     <Compile Include="Entities\Meal.cs" />
     <Compile Include="Entities\MealsVsLunchPlans.cs" />
     <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\TV2NewsItem.cs" />
     <Compile Include="Entities\ViewAdminMessageJoin.cs" />
     <Compile Include="Entities\ViewMealsVsLunchPlansJoin.cs" />
     <Compile Include="Model.cs" />

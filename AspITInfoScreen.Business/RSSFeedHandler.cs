@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Syndication;
 using AspITInfoScreen.DAL.Entities;
+using System.Xml;
+using System.Net;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace AspITInfoScreen.Business
 {
@@ -57,18 +61,44 @@ namespace AspITInfoScreen.Business
         {
             try
             {
-                Client.SetRequestHeader("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)");
-                Feed = await Client.RetrieveFeedAsync(uri);
+                XmlDocument rssXmlDoc = new XmlDocument();
 
-                string title = feed.Title.Text;
+                //Load the RSS file from the RSS URL
+                rssXmlDoc.Load(uri.ToString());
 
-                foreach (SyndicationItem item in Feed.Items)
+                //Parse the Items in the RSS file
+                XmlNodeList rssNodes = rssXmlDoc.SelectNodes("rss/channel/item");
+
+                StringBuilder rssContent = new StringBuilder();
+
+                //Iterates through the Items in the RSS file
+                foreach (XmlNode rssNode in rssNodes)
                 {
                     TV2NewsItem newsItem = new TV2NewsItem();
-                    newsItem.Title = item.Title == null ? "Ingen titel" : item.Title.Text;
-                    newsItem.PubDate = item.PublishedDate.DateTime;
-                    newsItem.Description = item.Content == null ? "Ingen indehold" : item.Content.Text.FirstOrDefault().ToString();
-                    newsItem.Author = item.Authors == null ? "Ingen forfatter" : item.Authors.FirstOrDefault().Name.ToString();
+
+                    //Title
+                    XmlNode rssSubNode = rssNode.SelectSingleNode("title");
+                    newsItem.Title = rssSubNode != null ? rssSubNode.InnerText : "Ingen titel";
+
+                    //Datetime
+                    rssSubNode = rssNode.SelectSingleNode("pubDate");
+                    DateTime articleDate = Convert.ToDateTime(rssSubNode.InnerText);
+                    newsItem.PubDate = articleDate;
+
+                    //Content
+                    rssSubNode = rssNode.SelectSingleNode("description");
+                    //Regex for html tag removal
+                    Regex rgxHTML = new Regex("<[^>]*>"); //Additional patterns |\r?\n|\r
+                    string content = rgxHTML.Replace(rssSubNode.InnerText, "");
+                    //WebUtility to insert correct characters instead of &#160; or %nbsp; and the like
+                    content = WebUtility.HtmlDecode(content);
+
+                    newsItem.Description = content;
+
+                    //Author
+                    rssSubNode = rssNode.SelectSingleNode("author");
+                    newsItem.Author = rssSubNode != null ? rssSubNode.InnerText : "Ingen forfatter";
+
                     newsList.Add(newsItem);
                 }
             }

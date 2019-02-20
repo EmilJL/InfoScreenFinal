@@ -84,6 +84,10 @@ namespace AspITInfoScreen
                 if (rSSFeedHandler.NewsList.Count > 0)
                 {
                     SetNews();
+                    NewsTextFormatting();
+                } else
+                {
+                    rSSFeedHandler.GetFeed();
                 }
             }
 
@@ -286,12 +290,38 @@ namespace AspITInfoScreen
                 TBlockNewsTitle.Text = item.Title;
                 TBlockNewspublishDate.Text = item.PubDate.ToString("dd/MM/yyyy");
                 TBlockNewsContent.Text = item.Description;
-                TBlockNewsAuthor.Text = item.Author.ToString();
+                TBlockNewsAuthor.Text = item.Author;
+
                 rSSFeedHandler.NewsList.Remove(item);
             }
             catch (Exception err)
             {
                 throw;
+            }
+        }
+
+        private void NewsTextFormatting()
+        {
+            double newsPanelHeight = StackPanelNews.ActualHeight;
+            TBlockNewsTitle.MaxHeight = newsPanelHeight * 0.13;
+            TBlockNewsContent.MaxHeight = TBlockNewsTitle.MaxHeight;
+            TBlockNewsAuthor.MaxHeight = TBlockNewsTitle.MaxHeight;
+            TBlockNewsContent.MaxHeight = newsPanelHeight * 0.60;
+
+            //Update any changes made to the text containers
+            TBlockNewsContent.UpdateLayout();
+            TBlockNewsTitle.UpdateLayout();
+
+            //Shrink text until everything fits - no matter the size.
+            while (TBlockNewsContent.IsTextTrimmed)
+            {
+                TBlockNewsContent.FontSize--;
+                TBlockNewsContent.UpdateLayout();
+            }
+            while (TBlockNewsTitle.IsTextTrimmed)
+            {
+                TBlockNewsTitle.FontSize--;
+                TBlockNewsTitle.UpdateLayout();
             }
         }
     }

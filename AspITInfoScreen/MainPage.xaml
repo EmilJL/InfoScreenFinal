@@ -101,13 +101,13 @@
         <!-- News -->
         <StackPanel x:Name="StackPanelNews" Grid.Column="3" Grid.Row="1"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                    Margin="10">
+                    Margin="10" Spacing="10">
             <!-- Title -->
-            <TextBlock x:Name="TBlockNewsTitle" Text="title" FontSize="48" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords"/>
+            <TextBlock x:Name="TBlockNewsTitle" Text="title" FontSize="48" FontWeight="Bold" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords"/>
             <!-- Date and Author -->
             <StackPanel Orientation="Horizontal" Spacing="10">
                 <TextBlock x:Name="TBlockNewspublishDate" Text="Date" FontSize="20"/>
-                <TextBlock x:Name="TBlockNewsAuthor" Text="Author" FontSize="20"/>
+                <TextBlock x:Name="TBlockNewsAuthor" Text="Author" FontSize="20" FontStyle="Italic"/>
             </StackPanel>
             
             <TextBlock x:Name="TBlockNewsContent" Text="Content" TextTrimming="WordEllipsis" FontSize="40" TextWrapping="Wrap" Width="auto" Height="auto"/>

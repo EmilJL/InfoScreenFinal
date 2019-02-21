@@ -71,16 +71,18 @@ namespace AspITInfoScreen
 
         private void Dispatcher_Elapsed(object sender, object e)
         {
+            //What is this?
             if (counter == 1)
             {
                 counter++;
             }
-
+            //Update clock
             TBlockTime.Text = calendarHandler.GetStringDate("hh:mm:ss");
 
             if( counter % 10 == 0)
             {
                 WeatherAndModuleToggle();
+                //News
                 if (rSSFeedHandler.NewsList.Count > 0)
                 {
                     SetNews();
@@ -90,10 +92,13 @@ namespace AspITInfoScreen
                     rSSFeedHandler.GetFeed();
                 }
             }
-
+            //Time between global update : 5 min.
             if (counter >= 300)
             {
                 UpdateUiContent();
+                /*
+                 * Update database model here
+                 */
                 counter = 1;
             } else
             {
@@ -110,6 +115,7 @@ namespace AspITInfoScreen
             OpenRemoteModule();
             GetMealPlan();
             SetMealPlanWidth();
+            UpdateTextElements();
         }
 
         /// <summary>
@@ -282,7 +288,9 @@ namespace AspITInfoScreen
                 ImageModulePlan.Visibility = Visibility.Visible;
             }
         }
-
+        /// <summary>
+        /// Display/cycle news from the RSS feed retrieved with [Handler].GetFeed()
+        /// </summary>
         private void SetNews()
         {
             TV2NewsItem item = rSSFeedHandler.NewsList.FirstOrDefault();
@@ -297,11 +305,11 @@ namespace AspITInfoScreen
             }
             catch (Exception err)
             {
-                throw;
+                Console.WriteLine(err.Message,err.GetType().ToString());
             }
         }
         /// <summary>
-        /// Changes news containers text based on current content. Does not work with small window size
+        /// Changes news containers text based on current content. Does nothing with small window size
         /// </summary>
         private void NewsTextFormatting()
         {

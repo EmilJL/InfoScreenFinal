@@ -62,35 +62,35 @@
                     HorizontalAlignment="Stretch"
                     Spacing="10"
                     Margin="20">
-
+            <!-- Monday -->
             <StackPanel x:Name="StackPanelMonday" Orientation="Horizontal">
                 <TextBlock x:Name="TBlockMonday" Text="Mandag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
                 <TextBlock x:Name="TBlockMondayMeal" Text="404" FontSize="48"/>
             </StackPanel>
             
             <Border BorderBrush="Black" BorderThickness="1"/>
-            
+            <!-- Tuesdau -->
             <StackPanel x:Name="StackPanelTuesday" Orientation="Horizontal">
                 <TextBlock x:Name="TBlockTuesday" Text="Tirsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
                 <TextBlock x:Name="TBlockTuesdayMeal" Text="404" FontSize="48"/>
             </StackPanel>
             
             <Border BorderBrush="Black" BorderThickness="1"/>
-            
+            <!-- Wednesday -->
             <StackPanel x:Name="StackPanelWednesday" Orientation="Horizontal">
                 <TextBlock x:Name="TBlockWednesday" Text="Onsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
                 <TextBlock x:Name="TBlockWednesdayMeal" Text="404" FontSize="48"/>
             </StackPanel>
             
             <Border BorderBrush="Black" BorderThickness="1"/>
-            
+            <!-- Thursday -->
             <StackPanel x:Name="StackPanelThursday" Orientation="Horizontal">
                 <TextBlock x:Name="TBlockThursday" Text="Torsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
                 <TextBlock x:Name="TBlockThursdayMeal" Text="404" FontSize="48"/>
             </StackPanel>
             
             <Border BorderBrush="Black" BorderThickness="1"/>
-            
+            <!-- Friday -->
             <StackPanel x:Name="StackPanelFridayday" Orientation="Horizontal">
                 <TextBlock x:Name="TBlockFriday" Text="Fredag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
                 <TextBlock x:Name="TBlockFridayMeal" Text="404" FontSize="48"/>

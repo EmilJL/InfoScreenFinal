@@ -301,19 +301,24 @@ namespace AspITInfoScreen
             }
         }
         /// <summary>
-        /// Changes news containers text based on current content
+        /// Changes news containers text based on current content. Does not work with small window size
         /// </summary>
         private void NewsTextFormatting()
         {
             //Set text block elements height based on parent element
-            double newsPanelHeight = StackPanelNews.ActualHeight; //Parent
+            StackPanel parent = (StackPanel)TBlockNewsContent.Parent;
+            double parentHeight = parent.ActualHeight;
 
-            TBlockNewsTitle.MaxHeight = newsPanelHeight * 0.20; //20%
-            TBlockNewsContent.MaxHeight = newsPanelHeight * 0.60; // 60%
+            if(parentHeight > 100)
+            {
+                //StkPnl --> TxtBlock
+                TBlockNewsTitle.MaxHeight = parentHeight * 0.20; //20%
+                TBlockNewsContent.MaxHeight = parentHeight * 0.60; // 60%
 
-            //Inside another stackpanel (height after parent's parent)
-            TBlockNewspublishDate.MaxHeight = newsPanelHeight * 0.10; //10%
-            TBlockNewsAuthor.MaxHeight = TBlockNewspublishDate.MaxHeight; //10%
+                //Inside another stackpanel - StkPnl(Parent) --> StkPnl --> TxtBlock
+                TBlockNewspublishDate.MaxHeight = parentHeight * 0.10; //10%
+                TBlockNewsAuthor.MaxHeight = TBlockNewspublishDate.MaxHeight; //10%
+            }
 
             //Reset desired font size and proportion
             TBlockNewsAuthor.FontSize = 30;
@@ -330,11 +335,11 @@ namespace AspITInfoScreen
                 TBlockNewsContent.FontSize--;
                 TBlockNewsContent.UpdateLayout();
             }
-            //Incrementally shrink author, date and title until everything fitsot minimum limit reached
+            //Incrementally shrink author, date and title until everything fits or minimum limit reached
             while (TBlockNewsTitle.IsTextTrimmed && TBlockNewsTitle.FontSize > 15)
             {
                 //Title can't be smaller than Author or Date text element
-                if (TBlockNewsTitle.FontSize - TBlockNewspublishDate.FontSize > 6)
+                if (TBlockNewsTitle.FontSize - TBlockNewspublishDate.FontSize > 5)
                 {
                     TBlockNewsTitle.FontSize--;
                     //Author and Date can't be smaller than 10 pixels - this minimum limits other elements minimum size as well

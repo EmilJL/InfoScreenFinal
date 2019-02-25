@@ -77,6 +77,7 @@ namespace AspITInfoScreen
                 counter++;
             }
             //Update clock
+            UpdateAnalogueClock();
             TBlockTime.Text = calendarHandler.GetStringDate("hh:mm:ss");
 
             if( counter % 10 == 0)
@@ -116,6 +117,7 @@ namespace AspITInfoScreen
             GetMealPlan();
             SetMealPlanWidth();
             UpdateTextElements();
+            AnalogueClockSize();
         }
 
         /// <summary>
@@ -362,6 +364,83 @@ namespace AspITInfoScreen
             }
         }
         /// <summary>
+        /// Resize the analogue clock based on the smallest of its width and height
+        /// </summary>
+        private void AnalogueClockSize()
+        {
+            double clockParentWidth = ParentGrid.ActualWidth;
+            double clockParentHeight = ParentGrid.ActualHeight;
+            int roundedMeassure = 0;
+            int radius = 0;
+
+            if (clockParentHeight > clockParentWidth)
+            {
+                if ((int)clockParentWidth % 2 == 0)
+                {
+                    roundedMeassure = (int)clockParentWidth;
+                }
+                else
+                {
+                    roundedMeassure = (int)clockParentWidth - 1;
+                }
+            }
+            else
+            {
+                if ((int)clockParentHeight % 2 == 0)
+                {
+                    roundedMeassure = (int)clockParentHeight;
+                }
+                else
+                {
+                    roundedMeassure = (int)clockParentHeight - 1;
+                }
+            }
+
+            radius = roundedMeassure / 2;
+
+            //Clock metrics
+            AnalogueClockEllipsis.Height = roundedMeassure;
+            AnalogueClockEllipsis.Width = roundedMeassure;
+            //Arm length
+            rectangleSecond.Width = radius * 0.95;
+            rectangleMinute.Width = radius * 0.80;
+            rectangleHour.Width = radius * 0.70;
+
+            //Margin for arm offset
+            rectangleSecond.Margin = new Thickness(rectangleSecond.Width, 0, 0, 0); ;
+            rectangleMinute.Margin = new Thickness(rectangleMinute.Width, 0, 0, 0); ;
+            rectangleHour.Margin = new Thickness(rectangleHour.Width, 0, 0, 0); ;
+
+            //Offset for animation center
+            secondHand.CenterY = rectangleSecond.Height / 2;
+            minuteHand.CenterY = rectangleMinute.Height / 2;
+            hourHand.CenterY = rectangleHour.Height / 2;
+            //Timestamps
+
+            double dist = roundedMeassure * 0.90;
+
+            const double A = 30;
+            const double B = 60;
+            const double C = 90;
+
+            double coordY = (Math.Sin(ToRadians(A)) * dist) / Math.Sin(ToRadians(C));
+            double coordX = (Math.Sin(ToRadians(B)) * dist) / Math.Sin(ToRadians(C));
+
+
+            TBlockTwelve.Margin = new Thickness(0, -roundedMeassure * 0.90, 0, 0);
+            TBlockOne.Margin = new Thickness(coordY, -coordX, 0, 0);
+            TBlockTwo.Margin = new Thickness(coordX, -coordY, 0, 0);
+            TBlockThree.Margin = new Thickness(roundedMeassure * 0.90, 0, 0, 0);
+            TBlockFour.Margin = new Thickness(coordX, coordY, 0, 0);
+            TBlockFive.Margin = new Thickness(coordY, coordX, 0, 0);
+            TBlockSix.Margin = new Thickness(0, roundedMeassure * 0.90, 0, 0);
+            TBlockSeven.Margin = new Thickness(-coordY, coordX, 0, 0);
+            TBlockEight.Margin = new Thickness(-coordX, coordY, 0, 0);
+            TBlockNine.Margin = new Thickness(-roundedMeassure * 0.90, 0, 0, 0);
+            TBlockTen.Margin = new Thickness(-coordX, -coordY, 0, 0);
+            TBlockEleven.Margin = new Thickness(-coordY, -coordX, 0, 0);
+        }
+        /// <summary>
         /// Calls method UpdateLayout() on all text elements
         /// </summary>
         private void UpdateTextElements()
@@ -377,6 +456,25 @@ namespace AspITInfoScreen
             TBlockAdminMessageDate.UpdateLayout();
             TBlockAdminMessageTitle.UpdateLayout();
 
+        }
+        /// <summary>
+        /// Moves the arms on the analogue clock
+        /// </summary>
+        private void UpdateAnalogueClock()
+        {
+            DateTime dt = calendarHandler.GetDate();
+            secondHand.Angle = dt.Second * 6 - 90;
+            minuteHand.Angle = dt.Minute * 6 - 90;
+            hourHand.Angle = (dt.Hour * 30) + (dt.Minute * 0.5) - 90;
+        }
+        /// <summary>
+        /// Conversion between degrees and radians for the analogue clock
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        private double ToRadians(double angle)
+        {
+            return (Math.PI / 180) * angle;
         }
     }
 }

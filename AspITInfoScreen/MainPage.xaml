@@ -53,7 +53,7 @@
         </StackPanel>
         
         <!-- -Analogue clock -->
-        <Grid x:Name="ParentGrid" Grid.Column="3" Width="auto" Height="auto">
+        <Grid x:Name="ParentGrid" Grid.Column="3" Width="auto" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Center">
             <Ellipse x:Name="AnalogueClockEllipsis" Width="auto" Height="auto" Stroke="Black" StrokeThickness="5"></Ellipse>
             <!-- Second  -->
             <Rectangle Margin="0,0,0,0" x:Name="rectangleSecond"
@@ -106,7 +106,7 @@
          
         </Grid>
         <!-- Digital clock-->
-        <TextBlock x:Name="TBlockTime" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Right" Margin="0,0,20,0" Text="HH:MM:SS" TextWrapping="NoWrap" VerticalAlignment="Top" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto"/>
+        <TextBlock x:Name="TBlockTime" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0" Text="HH:MM:SS" TextWrapping="NoWrap" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto" Height="auto"/>
         
         <!-- MealPlan -->
         <StackPanel x:Name="StackPanelMealPlan" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2"

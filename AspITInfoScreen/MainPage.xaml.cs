@@ -370,6 +370,14 @@ namespace AspITInfoScreen
         /// </summary>
         private void AnalogueClockSize()
         {
+            ParentGrid.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.9;
+            ParentGrid.Width = MyGrid.ColumnDefinitions.FirstOrDefault().ActualWidth;
+            TBlockTime.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.25;
+            TBlockTime.FontSize = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.20;
+
+            ParentGrid.UpdateLayout();
+            TBlockTime.UpdateLayout();
+
             //Parent meassurements
             int clockParentWidth = (int)ParentGrid.ActualWidth;
             int clockParentHeight = (int)ParentGrid.ActualHeight;

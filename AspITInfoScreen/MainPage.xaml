@@ -67,7 +67,7 @@
          
             <!-- Minute  -->
             <Rectangle Margin="0,0,0,0" Name="rectangleMinute"  
-                Stroke="Red" Fill="Red" Height="12">
+                Stroke="Black" Fill="Black" Height="12">
                 <Rectangle.RenderTransform>
                     <RotateTransform x:Name="minuteHand" CenterX="0"  
                         CenterY="0" Angle="0" />
@@ -77,12 +77,16 @@
 
             <!-- Hour  -->
             <Rectangle Margin="0,0,0,0" Name="rectangleHour"  
-                Stroke="Green" Fill="Green" Height="15">
+                Stroke="Red" Fill="Red" Height="15">
                 <Rectangle.RenderTransform>
                     <RotateTransform x:Name="hourHand" CenterX="0"  
                         CenterY="0" Angle="0" />
                 </Rectangle.RenderTransform>
             </Rectangle>
+            <!---->
+            
+            <!-- Stylistic dot -->
+            <Ellipse x:Name="ArmDotEllipsis" Width="40" Height="40" Stroke="Green" StrokeThickness="1" Fill="Green"></Ellipse>
             <!---->
             
             <!-- Timestamps -->

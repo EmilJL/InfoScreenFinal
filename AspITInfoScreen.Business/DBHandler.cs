@@ -27,5 +27,12 @@ namespace AspITInfoScreen.Business
             get { return dbAccess; }
             set { dbAccess = value; }
         }
+        /// <summary>
+        /// Creates a new model to include any changes made to the Database
+        /// </summary>
+        public void UpdateModel()
+        {
+            Model = new Model();
+        }
     }
 }

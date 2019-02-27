@@ -98,10 +98,14 @@ namespace AspITInfoScreen
             //Time between global update : 5 min.
             if (counter >= 300)
             {
+                //Update model (Static??)
+                dbHandler.UpdateModel();
+                lunchPlanHandler.UpdateModel();
+                mealHandler.UpdateModel();
+                messageHandler.UpdateModel();
+
+                //Update User Interface
                 UpdateUiContent();
-                /*
-                 * Update database model here
-                 */
                 counter = 1;
             } else
             {
@@ -110,7 +114,6 @@ namespace AspITInfoScreen
         }
         private void UpdateUiContent()
         {
-            
             SetWeatherImage();
             SetComicStripImage(ImageComic);
             SetComicStripImage(ImageComic2, 1);
@@ -179,6 +182,7 @@ namespace AspITInfoScreen
 
         private void GetMealPlan()
         {
+            int test = calendarHandler.GetWeekNumber();
             menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber());
 
             foreach (var item in menu)
@@ -370,10 +374,10 @@ namespace AspITInfoScreen
         /// </summary>
         private void AnalogueClockSize()
         {
-            ParentGrid.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.9;
+            ParentGrid.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.8;
             ParentGrid.Width = MyGrid.ColumnDefinitions.FirstOrDefault().ActualWidth;
-            TBlockTime.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.25;
-            TBlockTime.FontSize = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.20;
+            TBlockTime.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.20;
+            TBlockTime.FontSize = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.15;
 
             ParentGrid.UpdateLayout();
             TBlockTime.UpdateLayout();

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AspITInfoScreen.DAL;
+using AspITInfoScreen.DAL.Entities;
 
 namespace AspITInfoScreen.Business
 {

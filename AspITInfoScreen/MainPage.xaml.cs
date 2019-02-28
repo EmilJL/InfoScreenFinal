@@ -179,10 +179,11 @@ namespace AspITInfoScreen
                 Debug.WriteLine(error.GetType() + ": " + error.Message);
             }
         }
-
+        /// <summary>
+        /// Retrieves the meals for the week and set GUI elements.
+        /// </summary>
         private void GetMealPlan()
         {
-            int test = calendarHandler.GetWeekNumber();
             menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber());
 
             foreach (var item in menu)
@@ -280,7 +281,6 @@ namespace AspITInfoScreen
         {
             UpdateUiContent();
         }
-        
         /// <summary>
         /// Toggles visibility of GUI elements weatherforecast and module plan.
         /// </summary>

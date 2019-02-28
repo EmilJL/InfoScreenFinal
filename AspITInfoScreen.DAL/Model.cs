@@ -29,10 +29,9 @@ namespace AspITInfoScreen.DAL
             Meals = meals;
             MealsVsLunchPlans = mealsVsLunchPlans;
         }
-        // PRIVATE SETTERS?
-        public ObservableCollection<Meal> Meals { get; set; }
-        public ObservableCollection<LunchPlan> LunchPlans { get; set; }
-        public ObservableCollection<Message> Messages { get; set; }
-        public ObservableCollection<MealsVsLunchPlans> MealsVsLunchPlans { get; set; }
+        public ObservableCollection<Meal> Meals { get; private set; }
+        public ObservableCollection<LunchPlan> LunchPlans { get; private set; }
+        public ObservableCollection<Message> Messages { get; private set; }
+        public ObservableCollection<MealsVsLunchPlans> MealsVsLunchPlans { get; private set; }
     }
 }

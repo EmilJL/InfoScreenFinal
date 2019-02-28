@@ -23,12 +23,24 @@ namespace AspITInfoScreen.DAL.Entities
         public int TimesChosen
         {
             get { return timesChosen; }
-            set { timesChosen = value; }
+            set {
+                if (DataValidation.NaturalNumber(value))
+                    timesChosen = value;
+                else
+                    throw new ArgumentOutOfRangeException("A meal's timesChosen must be a natural number.");
+            }
         }
         public string Description
         {
             get { return description; }
-            set { description = value; }
+            set {
+                if (DataValidation.String(value))
+                    description = value;
+                else
+                {
+                    throw new ArgumentNullException("description cannot be null, whitespace or empty.");
+                }
+            }
         }
     }
 }

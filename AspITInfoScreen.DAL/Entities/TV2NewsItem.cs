@@ -21,26 +21,48 @@ namespace AspITInfoScreen.DAL.Entities
         public string Author
         {
             get { return author; }
-            set { author = value; }
+            set {
+                if (DataValidation.String(value))
+                    author = value;
+                else
+                    throw new ArgumentNullException("author cannot be null, whitespace or empty.");
+            }
         }
 
         public string Description
         {
             get { return description; }
-            set { description = value; }
+            set
+            {
+                if (DataValidation.String(value))
+                    description = value;
+                else
+                    throw new ArgumentNullException("description cannot be null, whitespace or empty.");
+            }
         }
 
         public DateTime PubDate
         {
             get { return pubDate; }
-            set { pubDate = value; }
+            set
+            {
+                if (DataValidation.Date(value))
+                    pubDate = value;
+                else
+                    throw new ArgumentNullException($"pubDate cannot be from the future; is {value.ToLongDateString()}");
+            }
         }
 
         public string Title
         {
             get { return title; }
-            set { title = value; }
+            set
+            {
+                if (DataValidation.String(value))
+                    title = value;
+                else
+                    throw new ArgumentNullException("title cannot be null, whitespace or empty.");
+            }
         }
-
     }
 }

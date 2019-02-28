@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace AspITInfoScreen.DAL.Entities
 {
-    public class ViewAdminMessageJoin
+    public class ViewAdminMessageJoin : Message
     {
         private string username;
-        private string header;
-        private string text;
-        private DateTime date;
 
-        public ViewAdminMessageJoin()
+        public ViewAdminMessageJoin() : base()
         {
         }
-
+        /*
+         * Unessesary with inheritance
         public DateTime Date
         {
             get { return date; }
@@ -34,12 +32,16 @@ namespace AspITInfoScreen.DAL.Entities
             get { return header; }
             set { header = value; }
         }
-
+        */
         public string Username
         {
             get { return username; }
-            set { username = value; }
+            set {
+                if (DataValidation.String(value))
+                    username = value;
+                else
+                    throw new ArgumentNullException("username cannot be null, whitespace or empty.");
+            }
         }
-
     }
 }

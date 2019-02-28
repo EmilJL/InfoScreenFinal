@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspITInfoScreen.DAL
+namespace AspITInfoScreen.DAL.Entities
 {
     public class Message
     {
@@ -20,7 +20,10 @@ namespace AspITInfoScreen.DAL
             get { return date; }
             set
             {
-                date = value;
+                if (DataValidation.Date(value))
+                    date = value;
+                else
+                    throw new ArgumentOutOfRangeException($"date of the message cannnot be from the future; is {value.ToLongDateString()}. Compared to local system time");
             }
         }
         public string Text
@@ -28,7 +31,10 @@ namespace AspITInfoScreen.DAL
             get { return text; }
             set
             {
-                text = value;
+                if (DataValidation.String(value))
+                    text = value;
+                else
+                    throw new ArgumentException("text cannot be null, whitespace or empty");
             }
         }
         public string Header
@@ -36,8 +42,10 @@ namespace AspITInfoScreen.DAL
             get { return header; }
             set
             {
-                header = value;
-
+                if (DataValidation.String(value))
+                    header = value;
+                else
+                    throw new ArgumentException("header cannot be null, whitespace or empty.");
             }
         }
     }

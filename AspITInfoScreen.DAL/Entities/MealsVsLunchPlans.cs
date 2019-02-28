@@ -28,17 +28,34 @@ namespace AspITInfoScreen.DAL.Entities
         public string Weekday
         {
             get { return weekday; }
-            set { weekday = value; }
+            set {
+                if (DataValidation.String(value))
+                    throw new ArgumentNullException("weekday cannot be null, whitespace or empty.");
+                if (DataValidation.WeekDay(value))
+                    weekday = value;
+                else
+                    throw new ArgumentNullException("weekday must be a day of the week.");
+            }
         }
         public int MealId
         {
             get { return mealId; }
-            set { mealId = value; }
+            set {
+                if (DataValidation.WholeNumber(value))
+                    mealId = value;
+                else
+                    throw new ArgumentOutOfRangeException("mealId must be a whole number.");
+            }
         }
         public int LunchPlanId
         {
             get { return lunchPlanId; }
-            set { lunchPlanId = value; }
+            set {
+                if (DataValidation.WholeNumber(value))
+                    lunchPlanId = value;
+                else
+                    throw new ArgumentOutOfRangeException("lunchPlanId must be a whole number.");
+            }
         }
     }
 }

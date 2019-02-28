@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspITInfoScreen.DAL
+namespace AspITInfoScreen.DAL.Entities
 {
     public class LunchPlan
     {
@@ -22,7 +22,12 @@ namespace AspITInfoScreen.DAL
         public int Week
         {
             get { return week; }
-            set { week = value; }
+            set {
+                if (DataValidation.WeekOfYear(value))
+                    week = value;
+                else
+                    throw new ArgumentOutOfRangeException("Week must be greater than 0 and equal to or less than 52.");
+            }
         }
     }
 }

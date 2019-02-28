@@ -24,13 +24,26 @@ namespace AspITInfoScreen.DAL.Entities
         public string Weekday
         {
             get { return weekday; }
-            set { weekday = value; }
+            set {
+                if (DataValidation.WeekDay(value))
+                    weekday = value;
+                else
+                    throw new ArgumentException("weekday must be a day of the week");
+            }
         }
 
         public string Meal
         {
             get { return meal; }
-            set { meal = value; }
+            set {
+                if (DataValidation.String(value))
+                    meal = value;
+                else
+                {
+                    throw new ArgumentNullException("Meal description 'meal' cannot be null, whitespace or empty.");
+                }
+
+            }
         }
     }
 }

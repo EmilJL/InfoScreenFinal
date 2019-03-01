@@ -25,7 +25,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.String(value))
                     author = value;
                 else
-                    throw new ArgumentNullException("author cannot be null, whitespace or empty.");
+                    throw new ArgumentNullException($"author cannot be null, whitespace or empty; is {value}");
             }
         }
 
@@ -37,7 +37,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.String(value))
                     description = value;
                 else
-                    throw new ArgumentNullException("description cannot be null, whitespace or empty.");
+                    throw new ArgumentNullException($"description cannot be null, whitespace or empty; is {value}");
             }
         }
 
@@ -61,7 +61,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.String(value))
                     title = value;
                 else
-                    throw new ArgumentNullException("title cannot be null, whitespace or empty.");
+                    throw new ArgumentNullException($"title cannot be null, whitespace or empty; is {value}");
             }
         }
     }

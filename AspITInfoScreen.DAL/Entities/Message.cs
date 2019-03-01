@@ -34,7 +34,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.String(value))
                     text = value;
                 else
-                    throw new ArgumentException("text cannot be null, whitespace or empty");
+                    throw new ArgumentException($"text cannot be null, whitespace or empty; is {value}");
             }
         }
         public string Header
@@ -45,7 +45,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.String(value))
                     header = value;
                 else
-                    throw new ArgumentException("header cannot be null, whitespace or empty.");
+                    throw new ArgumentException($"header cannot be null, whitespace or empty; is {value}");
             }
         }
     }

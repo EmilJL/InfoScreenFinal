@@ -34,7 +34,6 @@ namespace AspITInfoScreen
     {
         private DBHandler dbHandler;
         private LunchPlanHandler lunchPlanHandler;
-        private Model model;
         private MealHandler mealHandler;
         private MessageHandler messageHandler;
         private CalendarHandler calendarHandler;
@@ -59,7 +58,6 @@ namespace AspITInfoScreen
             rSSFeedHandler = new RSSFeedHandler("http://feeds.tv2.dk/nyhederne_seneste/rss");
             clockHandler = new ClockHandler();
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = calendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + calendarHandler.GetWeekNumber();
-            model = dbHandler.Model;
             counter = 1;
             SetDpTimer();
         }
@@ -85,6 +83,7 @@ namespace AspITInfoScreen
             if( counter % 10 == 0)
             {
                 WeatherAndModuleToggle();
+                
                 //News
                 if (rSSFeedHandler.NewsList.Count > 0)
                 {
@@ -98,11 +97,8 @@ namespace AspITInfoScreen
             //Time between global update : 5 min.
             if (counter >= 300)
             {
-                //Update model (Static??)
+                //Update model
                 dbHandler.UpdateModel();
-                lunchPlanHandler.UpdateModel();
-                mealHandler.UpdateModel();
-                messageHandler.UpdateModel();
 
                 //Update User Interface
                 UpdateUiContent();

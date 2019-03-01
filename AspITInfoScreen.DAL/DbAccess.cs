@@ -38,11 +38,13 @@ namespace AspITInfoScreen.DAL
                             {
                                 while (reader.Read())
                                 {
-                                    var mealsVsLunchPlans = new MealsVsLunchPlans();
-                                    mealsVsLunchPlans.Id = reader.GetInt32(0);
-                                    mealsVsLunchPlans.LunchPlanId = reader.GetInt32(1);
-                                    mealsVsLunchPlans.MealId = reader.GetInt32(2);
-                                    mealsVsLunchPlans.Weekday = reader.GetString(3);
+                                    var mealsVsLunchPlans = new MealsVsLunchPlans
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        LunchPlanId = reader.GetInt32(1),
+                                        MealId = reader.GetInt32(2),
+                                        Weekday = reader.GetString(3)
+                                    };
                                     mealsVsLunchPlansCollection.Add(mealsVsLunchPlans);
                                 }
                             }
@@ -51,9 +53,11 @@ namespace AspITInfoScreen.DAL
                             {
                                 while (reader.Read())
                                 {
-                                    var lunchPlan = new LunchPlan();
-                                    lunchPlan.Id = reader.GetInt32(0);
-                                    lunchPlan.Week = reader.GetInt32(1);
+                                    var lunchPlan = new LunchPlan
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        Week = reader.GetInt32(1)
+                                    };
                                     lunchPlans.Add(lunchPlan);
                                 }
                             }
@@ -62,12 +66,14 @@ namespace AspITInfoScreen.DAL
                             {
                                 while (reader.Read())
                                 {
-                                    var message = new Message();
-                                    message.Id = reader.GetInt32(0);
-                                    message.AdminId = reader.GetInt32(1);
-                                    message.Date = reader.GetDateTime(2);
-                                    message.Text = reader.GetString(3);
-                                    message.Header = reader.GetString(4);
+                                    var message = new Message
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        AdminId = reader.GetInt32(1),
+                                        Date = reader.GetDateTime(2),
+                                        Text = reader.GetString(3),
+                                        Header = reader.GetString(4)
+                                    };
                                     messages.Add(message);
                                 }
                             }
@@ -76,10 +82,12 @@ namespace AspITInfoScreen.DAL
                             {
                                 while (reader.Read())
                                 {
-                                    var meal = new Meal();
-                                    meal.Id = reader.GetInt32(0);
-                                    meal.Description = reader.GetString(1);
-                                    meal.TimesChosen = reader.GetInt32(2);
+                                    var meal = new Meal
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        Description = reader.GetString(1),
+                                        TimesChosen = reader.GetInt32(2)
+                                    };
                                     meals.Add(meal);
                                 }
                             }

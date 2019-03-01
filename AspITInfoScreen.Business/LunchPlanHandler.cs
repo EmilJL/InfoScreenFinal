@@ -23,6 +23,7 @@ namespace AspITInfoScreen.Business
         }
         public List<ViewMealsVsLunchPlansJoin> GetMealsForWeek(int week)
         {
+            /*
             var mealsForWeek = Model.MealsVsLunchPlans.Where(mvsl => mvsl.LunchPlanId == GetLunchPlanForWeek(week).Id);
             List<ViewMealsVsLunchPlansJoin> result = new List<ViewMealsVsLunchPlansJoin>();
             foreach (MealsVsLunchPlans mvsl in mealsForWeek)
@@ -32,6 +33,20 @@ namespace AspITInfoScreen.Business
                 meal.Weekday = mvsl.Weekday;
                 result.Add(meal);
             }
+            */
+            LunchPlan lp = GetLunchPlanForWeek(week);
+            List<MealsVsLunchPlans> mealsForWeek = Model.MealsVsLunchPlans.Where(mvsl => mvsl.LunchPlanId == lp.Id).ToList();
+            List<ViewMealsVsLunchPlansJoin> result = new List<ViewMealsVsLunchPlansJoin>();
+            foreach (MealsVsLunchPlans mvsl in mealsForWeek)
+            {
+                ViewMealsVsLunchPlansJoin meal = new ViewMealsVsLunchPlansJoin
+                {
+                    Meal = Model.Meals.Where(m => m.Id == mvsl.MealId).FirstOrDefault().Description,
+                    Weekday = mvsl.Weekday
+                };
+                result.Add(meal);
+            }
+
             return result;
         }
     }

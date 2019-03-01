@@ -26,7 +26,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.WeekOfYear(value))
                     week = value;
                 else
-                    throw new ArgumentOutOfRangeException("Week must be greater than 0 and equal to or less than 52.");
+                    throw new ArgumentOutOfRangeException($"Week must be greater than 0 and equal to or less than 52; is {value}");
             }
         }
     }

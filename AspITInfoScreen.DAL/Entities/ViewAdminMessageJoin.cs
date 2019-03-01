@@ -40,7 +40,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.String(value))
                     username = value;
                 else
-                    throw new ArgumentNullException("username cannot be null, whitespace or empty.");
+                    throw new ArgumentNullException($"username cannot be null, whitespace or empty; is {value}");
             }
         }
     }

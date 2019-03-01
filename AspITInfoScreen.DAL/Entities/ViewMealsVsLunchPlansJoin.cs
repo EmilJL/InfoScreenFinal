@@ -28,7 +28,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.WeekDay(value))
                     weekday = value;
                 else
-                    throw new ArgumentException("weekday must be a day of the week");
+                    throw new ArgumentException($"weekday must be a day of the week; is {value}");
             }
         }
 
@@ -40,7 +40,7 @@ namespace AspITInfoScreen.DAL.Entities
                     meal = value;
                 else
                 {
-                    throw new ArgumentNullException("Meal description 'meal' cannot be null, whitespace or empty.");
+                    throw new ArgumentNullException($"Meal description 'meal' cannot be null, whitespace or empty; is {value}");
                 }
 
             }

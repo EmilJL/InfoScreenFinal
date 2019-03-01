@@ -27,7 +27,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.NaturalNumber(value))
                     timesChosen = value;
                 else
-                    throw new ArgumentOutOfRangeException("A meal's timesChosen must be a natural number.");
+                    throw new ArgumentOutOfRangeException($"A meal's timesChosen must be a natural number; is {value}");
             }
         }
         public string Description
@@ -38,7 +38,7 @@ namespace AspITInfoScreen.DAL.Entities
                     description = value;
                 else
                 {
-                    throw new ArgumentNullException("description cannot be null, whitespace or empty.");
+                    throw new ArgumentNullException($"description cannot be null, whitespace or empty; is {value}");
                 }
             }
         }

@@ -21,7 +21,7 @@ namespace AspITInfoScreen.DAL.Entities
         }
         public static bool String(string str)
         {
-            if (!string.IsNullOrEmpty(str) || !string.IsNullOrWhiteSpace(str))
+            if (!string.IsNullOrWhiteSpace(str))
             {
                 return true;
             }
@@ -34,7 +34,7 @@ namespace AspITInfoScreen.DAL.Entities
         {
             if (String(day))
             {
-                if (day == "monday" || day == "tuesday" || day == "wednesday" || day == "thursday" || day == "friday")
+                if (day == "Monday" || day == "Tuesday" || day == "Wednesday" || day == "Thursday" || day == "Friday")
                 {
                     return true;
                 }

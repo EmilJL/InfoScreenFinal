@@ -29,12 +29,10 @@ namespace AspITInfoScreen.DAL.Entities
         {
             get { return weekday; }
             set {
-                if (DataValidation.String(value))
-                    throw new ArgumentNullException("weekday cannot be null, whitespace or empty.");
                 if (DataValidation.WeekDay(value))
                     weekday = value;
                 else
-                    throw new ArgumentNullException("weekday must be a day of the week.");
+                    throw new ArgumentNullException($"weekday must be a day of the week; is {value}");
             }
         }
         public int MealId
@@ -44,7 +42,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.WholeNumber(value))
                     mealId = value;
                 else
-                    throw new ArgumentOutOfRangeException("mealId must be a whole number.");
+                    throw new ArgumentOutOfRangeException($"mealId must be a whole number; is {value}");
             }
         }
         public int LunchPlanId
@@ -54,7 +52,7 @@ namespace AspITInfoScreen.DAL.Entities
                 if (DataValidation.WholeNumber(value))
                     lunchPlanId = value;
                 else
-                    throw new ArgumentOutOfRangeException("lunchPlanId must be a whole number.");
+                    throw new ArgumentOutOfRangeException($"lunchPlanId must be a whole number; is {value}");
             }
         }
     }

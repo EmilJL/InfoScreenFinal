@@ -97,7 +97,7 @@ namespace AspITInfoScreen.DAL
             }
             catch (Exception eSql)
             {
-                Debug.WriteLine("Exception: " + eSql.Message);
+                Debug.WriteLine("Exception: " + eSql.GetType() + "\n" + eSql.Message + " \nIn " + ToString());
             }
             Model model = new Model(lunchPlans, messages, meals, mealsVsLunchPlansCollection);
             return model;

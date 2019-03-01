@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,22 @@ namespace AspITInfoScreen.DAL.Entities
 {
     public static class DataValidation
     {
+        public static void SaveError(string errorMessage)
+        {
+            using (StreamReader streamReader = new StreamReader("../../InfoScreen-ErrorLog.txt"))
+            {
+                string log = streamReader.ReadToEnd();
+                if (!string.IsNullOrWhiteSpace(log))
+                {
+                    errorMessage = log + "\n\n" + errorMessage;
+                }
+            }
+
+            using (StreamWriter streamWriter = File.CreateText("../../InfoScreen-ErrorLog.txt"))
+            {
+                streamWriter.Write(errorMessage);
+            }
+        }
         public static bool Date(DateTime date)
         {
             if (date.CompareTo(DateTime.Now) < 0)

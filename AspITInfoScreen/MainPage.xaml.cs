@@ -97,7 +97,7 @@ namespace AspITInfoScreen
             //Time between global update : 5 min.
             if (counter >= 300)
             {
-                //Update model
+                //Update static model for all handlers
                 dbHandler.UpdateModel();
 
                 //Update User Interface

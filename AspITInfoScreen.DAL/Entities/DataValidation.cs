@@ -4,25 +4,84 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace AspITInfoScreen.DAL.Entities
 {
     public static class DataValidation
     {
-        public static void SaveError(string errorMessage)
+        public async static void SaveError(string errorMessage)
         {
-            using (StreamReader streamReader = new StreamReader("../../InfoScreen-ErrorLog.txt"))
-            {
-                string log = streamReader.ReadToEnd();
-                if (!string.IsNullOrWhiteSpace(log))
-                {
-                    errorMessage = log + "\n\n" + errorMessage;
-                }
-            }
+            string newCaseStart = $"\r\nDate: {DateTime.Now.ToShortDateString()}\r\n ";
+            const string caseEnd = "\r\n- - -";
+            Windows.Storage.StorageFolder storageFolder =
+                Windows.Storage.ApplicationData.Current.LocalFolder;
 
-            using (StreamWriter streamWriter = File.CreateText("../../InfoScreen-ErrorLog.txt"))
+            Windows.Storage.StorageFile errorLog;
+
+            
+            //Check for existing file
+                if (File.Exists(storageFolder.Path + "/InfoScreen-ErrorLog.txt")){
+                //Select file
+                errorLog = await storageFolder.GetFileAsync("InfoScreen-ErrorLog.txt");
+                //Add to file
+                await FileIO.AppendTextAsync(errorLog, $"{newCaseStart} {errorMessage} {caseEnd}");
+            } else
             {
-                streamWriter.Write(errorMessage);
+                //Create or replace existing file.
+                errorLog = await storageFolder.CreateFileAsync("InfoScreen-ErrorLog.txt", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(errorLog, $"" + newCaseStart + errorMessage + caseEnd);
+            }
+        }
+
+        public async static void ErrorLogClean(DateTime now)
+        {
+            const string caseStart = "Date: ";
+            const string caseEnd = "- - -";
+            List<List<string>> errors = new List<List<string>>();
+            string line;
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            StorageFile errorLog;
+            //Checks for file
+            if (File.Exists(storageFolder.Path + "/InfoScreen-ErrorLog.txt")) {
+                errorLog = await storageFolder.GetFileAsync("InfoScreen-ErrorLog.txt");
+                StreamReader file = new StreamReader(errorLog.Path);
+                //If new line - do
+                while((line = file.ReadLine()) != null)
+                {
+                    //If new case read else leave
+                    if (line.Contains(caseStart))
+                    {
+                        string sDate = line.Remove(0, 6);
+                        DateTime date = Convert.ToDateTime(sDate);
+                        //If not expired - do
+                        if ((now - date).TotalDays < 31)
+                        {
+                            List<string> error = new List<string>();
+                            //Until case end - do
+                            do
+                            {
+                                error.Add(line);
+                            } while (!(line = file.ReadLine()).Contains(caseEnd));
+                            error.Add(line);
+                            errors.Add(error);
+                        }
+                    }
+                }
+
+                file.Close();
+
+                TextWriter writer = new StreamWriter(errorLog.Path);
+
+                foreach (List<string> error in errors)
+                {
+                    foreach (string set in error)
+                    {
+                        await writer.WriteLineAsync(set);
+                    }
+                }
+
+                writer.Close();
             }
         }
         public static bool Date(DateTime date)

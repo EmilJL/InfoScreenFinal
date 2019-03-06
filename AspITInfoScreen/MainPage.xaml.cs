@@ -119,6 +119,9 @@ namespace AspITInfoScreen
             SetComicStripImage(ImageComic2, 1);
             SetAdminMessage();
             OpenRemoteModule();
+            SetStackPanelLeft();
+            SetStackPanelMiddle();
+            SetStackPanelRight();
             GetMealPlan();
             SetMealPlanWidth();
             UpdateTextElements();
@@ -133,7 +136,7 @@ namespace AspITInfoScreen
             try
             {
                 BitmapImage weather = new BitmapImage();
-                Uri address = new Uri("http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=2630&mode=long");
+                Uri address = new Uri("http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=2630&mode=short");
 
                 weather.DecodePixelType = DecodePixelType.Logical;
                 int cWidth = (int)MyGrid.ColumnDefinitions.Select(c => c.ActualWidth).FirstOrDefault() * 2;
@@ -179,7 +182,35 @@ namespace AspITInfoScreen
                 Debug.WriteLine(error.GetType() + ": " + error.Message);
             }
         }
+        /// <summary>
+        /// Set height for child element in the stackpanel
+        /// </summary>
+        private void SetStackPanelLeft()
+        {
+            double pHeight = StackPanelLeftCol.ActualHeight * 0.33;
 
+            ImageLogo.MaxHeight = pHeight;
+            StackPanelNews.MinHeight = pHeight;
+        }
+        /// <summary>
+        /// Set height for child element in the stackpanel
+        /// </summary>
+        private void SetStackPanelMiddle()
+        {
+            double pHeight = StackPanelMidCol.ActualHeight;
+
+            StackPanelMessage.MaxHeight = pHeight * 0.8;
+        }
+        /// <summary>
+        /// Set height for child element in the stackpanel
+        /// </summary>
+        private void SetStackPanelRight()
+        {
+            double pHeight = StackPanelRightcol.ActualHeight * 0.33;
+
+            ParentGrid.MaxHeight = pHeight;
+            StackPanelMealPlan.MaxHeight = pHeight * 2;
+        }
         private void GetMealPlan()
         {
             int test = calendarHandler.GetWeekNumber();
@@ -216,28 +247,28 @@ namespace AspITInfoScreen
         public void SetMealPlanWidth()
         {
             //Simplify?
-            Grid stackParent = (Grid)StackPanelMealPlan.Parent;
-            StackPanelMealPlan.Width = stackParent.ColumnDefinitions.FirstOrDefault().ActualWidth * 2;
-            double tBlockWidth = StackPanelMealPlan.Width / 4;
+            StackPanel stackParent = (StackPanel)StackPanelMealPlan.Parent;
+            StackPanelMealPlan.Width = stackParent.ActualWidth * 0.99;
+            double tBlockWidth = StackPanelMealPlan.Width / 3;
             //Monday
             TBlockMonday.Width = tBlockWidth;
-            TBlockMondayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockMondayMeal.MaxWidth = tBlockWidth * 2;
             TBlockMondayMeal.TextWrapping = TextWrapping.Wrap;
             //Tuesday
             TBlockTuesday.Width = tBlockWidth;
-            TBlockTuesdayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockTuesdayMeal.MaxWidth = tBlockWidth * 2;
             TBlockTuesdayMeal.TextWrapping = TextWrapping.Wrap;
             //Wednesday
             TBlockWednesday.Width = tBlockWidth;
-            TBlockWednesdayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockWednesdayMeal.MaxWidth = tBlockWidth * 2;
             TBlockWednesdayMeal.TextWrapping = TextWrapping.Wrap;
             //Thursday
             TBlockThursday.Width = tBlockWidth;
-            TBlockThursdayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockThursdayMeal.MaxWidth = tBlockWidth * 2;
             TBlockThursdayMeal.TextWrapping = TextWrapping.Wrap;
             //Friday
             TBlockFriday.Width = tBlockWidth;
-            TBlockFridayMeal.MaxWidth = tBlockWidth * 3;
+            TBlockFridayMeal.MaxWidth = tBlockWidth * 2;
             TBlockFridayMeal.TextWrapping = TextWrapping.Wrap;
         }
         /// <summary>
@@ -280,7 +311,6 @@ namespace AspITInfoScreen
         {
             UpdateUiContent();
         }
-        
         /// <summary>
         /// Toggles visibility of GUI elements weatherforecast and module plan.
         /// </summary>
@@ -289,11 +319,13 @@ namespace AspITInfoScreen
             if (ImageWeather.Visibility == Visibility.Collapsed)
             {
                 ImageWeather.Visibility = Visibility.Visible;
-                ImageModulePlan.Visibility = Visibility.Collapsed;
+                ImageComic.Visibility = Visibility.Collapsed;
+                ImageComic2.Visibility = Visibility.Collapsed;
             } else
             {
                 ImageWeather.Visibility = Visibility.Collapsed;
-                ImageModulePlan.Visibility = Visibility.Visible;
+                ImageComic.Visibility = Visibility.Visible;
+                ImageComic2.Visibility = Visibility.Visible;
             }
         }
         /// <summary>
@@ -374,10 +406,10 @@ namespace AspITInfoScreen
         /// </summary>
         private void AnalogueClockSize()
         {
-            ParentGrid.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.8;
-            ParentGrid.Width = MyGrid.ColumnDefinitions.FirstOrDefault().ActualWidth;
-            TBlockTime.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.20;
-            TBlockTime.FontSize = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.15;
+            ParentGrid.Height = StackPanelRightcol.ActualWidth * 0.8;
+            ParentGrid.Width = StackPanelRightcol.ActualWidth;
+            TBlockTime.Height = ParentGrid.Height * 0.20;
+            TBlockTime.FontSize = ParentGrid.Width * 0.15;
 
             ParentGrid.UpdateLayout();
             TBlockTime.UpdateLayout();

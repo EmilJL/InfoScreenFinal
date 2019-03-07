@@ -84,6 +84,7 @@ namespace AspITInfoScreen
 
             if( counter % 10 == 0)
             {
+                UpdateUiContent();
                 WeatherAndModuleToggle();
                 //News
                 if (rSSFeedHandler.NewsList.Count > 0)
@@ -123,7 +124,8 @@ namespace AspITInfoScreen
             SetStackPanelMiddle();
             SetStackPanelRight();
             GetMealPlan();
-            SetMealPlanWidth();
+            SetMealPlanSize();
+            SetMealPlanTextSize();
             UpdateTextElements();
             AnalogueClockSize();
         }
@@ -244,32 +246,66 @@ namespace AspITInfoScreen
         /// <summary>
         /// Sets StackPanel and its elements width based on grid size.
         /// </summary>
-        public void SetMealPlanWidth()
+        private void SetMealPlanSize()
         {
-            //Simplify?
             StackPanel stackParent = (StackPanel)StackPanelMealPlan.Parent;
-            StackPanelMealPlan.Width = stackParent.ActualWidth * 0.99;
-            double tBlockWidth = StackPanelMealPlan.Width / 3;
-            //Monday
-            TBlockMonday.Width = tBlockWidth;
-            TBlockMondayMeal.MaxWidth = tBlockWidth * 2;
-            TBlockMondayMeal.TextWrapping = TextWrapping.Wrap;
-            //Tuesday
-            TBlockTuesday.Width = tBlockWidth;
-            TBlockTuesdayMeal.MaxWidth = tBlockWidth * 2;
-            TBlockTuesdayMeal.TextWrapping = TextWrapping.Wrap;
-            //Wednesday
-            TBlockWednesday.Width = tBlockWidth;
-            TBlockWednesdayMeal.MaxWidth = tBlockWidth * 2;
-            TBlockWednesdayMeal.TextWrapping = TextWrapping.Wrap;
-            //Thursday
-            TBlockThursday.Width = tBlockWidth;
-            TBlockThursdayMeal.MaxWidth = tBlockWidth * 2;
-            TBlockThursdayMeal.TextWrapping = TextWrapping.Wrap;
-            //Friday
-            TBlockFriday.Width = tBlockWidth;
-            TBlockFridayMeal.MaxWidth = tBlockWidth * 2;
-            TBlockFridayMeal.TextWrapping = TextWrapping.Wrap;
+            StackPanelMealPlan.MaxWidth = stackParent.ActualWidth * 0.99;
+            StackPanelMealPlan.MaxHeight = stackParent.ActualHeight * 0.99;
+            double tBlockWidth = StackPanelMealPlan.MaxWidth / 3;
+
+            foreach (var item in StackPanelMealPlan.Children)
+            {
+                if(item.GetType() == typeof(StackPanel))
+                {
+                    StackPanel sp = (StackPanel)item;
+                    sp.Margin = new Thickness(5, 0, 5, 0);
+                    TextBlock tb = sp.Children[0] as TextBlock;
+                    tb.Width = tBlockWidth;
+                    tb = sp.Children[1] as TextBlock;
+                    tb.MaxWidth = tBlockWidth * 2 - 10;
+                    tb.TextWrapping = TextWrapping.WrapWholeWords;
+                    tb.TextTrimming = TextTrimming.CharacterEllipsis;
+                }
+            }
+        }
+        private void SetMealPlanTextSize()
+        {
+            List<StackPanel> days = new List<StackPanel>();
+            double totalHeight = 0;
+            StackPanelMealPlan.UpdateLayout();
+            foreach (var item in StackPanelMealPlan.Children)
+            {
+                if(item.GetType() == typeof(StackPanel))
+                {
+                    StackPanel sp = (StackPanel)item;
+                    totalHeight += sp.ActualHeight + 12;
+                    days.Add(sp);
+                    TextBlock tb = sp.Children[1] as TextBlock;
+                    //Width
+                    while(tb.IsTextTrimmed && tb.FontSize > 10)
+                    {
+                        tb.FontSize--;
+                        tb.UpdateLayout();
+                    }
+                }
+            }
+
+            while(totalHeight > StackPanelMealPlan.MaxHeight)
+            {
+                totalHeight = 0;
+                //Height
+                foreach (StackPanel item in days)
+                {
+                    TextBlock tbMeal = (TextBlock)item.Children[1];
+                    tbMeal.TextTrimming = TextTrimming.CharacterEllipsis;
+                    tbMeal.FontSize--;
+                    tbMeal.UpdateLayout();
+                    TextBlock tbDay = (TextBlock)item.Children[0];
+                    tbDay.FontSize--;
+                    tbDay.UpdateLayout();
+                    totalHeight += item.ActualHeight + 12;
+                }
+            }
         }
         /// <summary>
         /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.
@@ -306,10 +342,6 @@ namespace AspITInfoScreen
             TBlockAdminMessage.Text = msg.Text;
             TBlockAdminMessageDate.Text = msg.Date.ToString("dd/MM/yyyy");
             TBlockAdminMessageAuthor.Text = msg.Username;
-        }
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            UpdateUiContent();
         }
         /// <summary>
         /// Toggles visibility of GUI elements weatherforecast and module plan.
@@ -377,7 +409,7 @@ namespace AspITInfoScreen
             //Updates all changes made to the text containers
             UpdateTextElements();
 
-            //Incrementally shrink main content until everything fits - no matter the size
+            //Incrementally shrink main content until everything fits - Or minimum size reached
             while (TBlockNewsContent.IsTextTrimmed && TBlockNewsContent.FontSize > 10)
             {
                 TBlockNewsContent.FontSize--;

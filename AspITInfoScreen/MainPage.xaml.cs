@@ -60,6 +60,7 @@ namespace AspITInfoScreen
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = calendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + calendarHandler.GetWeekNumber();
             counter = 1;
             SetDpTimer();
+            UpdateLayout();
         }
 
         private void SetDpTimer()
@@ -82,6 +83,7 @@ namespace AspITInfoScreen
 
             if( counter % 10 == 0)
             {
+                UpdateUiContent();
                 WeatherAndModuleToggle();
                 
                 //News
@@ -115,8 +117,12 @@ namespace AspITInfoScreen
             SetComicStripImage(ImageComic2, 1);
             SetAdminMessage();
             OpenRemoteModule();
+            SetStackPanelLeft();
+            SetStackPanelMiddle();
+            SetStackPanelRight();
             GetMealPlan();
-            SetMealPlanWidth();
+            SetMealPlanSize();
+            SetMealPlanTextSize();
             UpdateTextElements();
             AnalogueClockSize();
         }
@@ -129,9 +135,10 @@ namespace AspITInfoScreen
             try
             {
                 BitmapImage weather = new BitmapImage();
-                Uri address = new Uri("http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=2630&mode=long");
+                Uri address = new Uri("http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=2630&mode=short");
 
                 weather.DecodePixelType = DecodePixelType.Logical;
+                //Change to stackpanel
                 int cWidth = (int)MyGrid.ColumnDefinitions.Select(c => c.ActualWidth).FirstOrDefault() * 2;
                 int rHeight = (int)MyGrid.RowDefinitions.Select(c => c.ActualHeight).FirstOrDefault() * 2;
                 weather.DecodePixelWidth = cWidth;
@@ -176,6 +183,38 @@ namespace AspITInfoScreen
             }
         }
         /// <summary>
+        /// Set height for child element in the stackpanel
+        /// </summary>
+        private void SetStackPanelLeft()
+        {
+            double pHeight = (StackPanelLeftCol.ActualHeight * 0.33) - StackPanelLeftCol.Spacing;
+
+            ImageLogo.MaxHeight = pHeight;
+            StackPanelNews.MinHeight = pHeight;
+            StackPanelNews.MaxHeight = pHeight;
+            ImageWeather.MaxHeight = pHeight;
+            StackPanelComic.MaxHeight = pHeight;
+        }
+        /// <summary>
+        /// Set height for child element in the stackpanel
+        /// </summary>
+        private void SetStackPanelMiddle()
+        {
+            double pHeight = StackPanelMidCol.ActualHeight;
+
+            StackPanelMessage.MaxHeight = pHeight * 0.8;
+        }
+        /// <summary>
+        /// Set height for child element in the stackpanel
+        /// </summary>
+        private void SetStackPanelRight()
+        {
+            double pHeight = StackPanelRightcol.ActualHeight * 0.33;
+
+            ParentGrid.MaxHeight = pHeight;
+            StackPanelMealPlan.MaxHeight = pHeight * 2;
+        }
+        /// <summary>
         /// Retrieves the meals for the week and set GUI elements.
         /// </summary>
         private void GetMealPlan()
@@ -209,7 +248,7 @@ namespace AspITInfoScreen
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception error)
             {
 
                 DataValidation.SaveError(error.ToString());
@@ -219,41 +258,73 @@ namespace AspITInfoScreen
         /// <summary>
         /// Sets StackPanel and its elements width based on grid size.
         /// </summary>
-        public void SetMealPlanWidth()
+        private void SetMealPlanSize()
         {
             try
             {
-                //Simplify?
-                Grid stackParent = (Grid)StackPanelMealPlan.Parent;
-                StackPanelMealPlan.Width = stackParent.ColumnDefinitions.FirstOrDefault().ActualWidth * 2;
-                double tBlockWidth = StackPanelMealPlan.Width / 4;
-                //Monday
-                TBlockMonday.Width = tBlockWidth;
-                TBlockMondayMeal.MaxWidth = tBlockWidth * 3;
-                TBlockMondayMeal.TextWrapping = TextWrapping.Wrap;
-                //Tuesday
-                TBlockTuesday.Width = tBlockWidth;
-                TBlockTuesdayMeal.MaxWidth = tBlockWidth * 3;
-                TBlockTuesdayMeal.TextWrapping = TextWrapping.Wrap;
-                //Wednesday
-                TBlockWednesday.Width = tBlockWidth;
-                TBlockWednesdayMeal.MaxWidth = tBlockWidth * 3;
-                TBlockWednesdayMeal.TextWrapping = TextWrapping.Wrap;
-                //Thursday
-                TBlockThursday.Width = tBlockWidth;
-                TBlockThursdayMeal.MaxWidth = tBlockWidth * 3;
-                TBlockThursdayMeal.TextWrapping = TextWrapping.Wrap;
-                //Friday
-                TBlockFriday.Width = tBlockWidth;
-                TBlockFridayMeal.MaxWidth = tBlockWidth * 3;
-                TBlockFridayMeal.TextWrapping = TextWrapping.Wrap;
-            }
-            catch (Exception)
-            {
+                StackPanel stackParent = (StackPanel)StackPanelMealPlan.Parent;
+                StackPanelMealPlan.MaxWidth = stackParent.ActualWidth * 0.99;
+                StackPanelMealPlan.MaxHeight = stackParent.ActualHeight * 0.99;
+                double tBlockWidth = StackPanelMealPlan.MaxWidth / 3;
 
+                foreach (var item in StackPanelMealPlan.Children)
+                {
+                    if(item.GetType() == typeof(StackPanel))
+                    {
+                        StackPanel sp = (StackPanel)item;
+                        sp.Margin = new Thickness(5, 0, 5, 0);
+                        TextBlock tb = sp.Children[0] as TextBlock;
+                        tb.Width = tBlockWidth;
+                        tb = sp.Children[1] as TextBlock;
+                        tb.MaxWidth = tBlockWidth * 2 - 10;
+                        tb.TextWrapping = TextWrapping.WrapWholeWords;
+                        tb.TextTrimming = TextTrimming.CharacterEllipsis;
+                    }
+                }
+            }
+            catch (Exception error)
+            {
                 DataValidation.SaveError(error.ToString());
             }
-            
+        }
+        private void SetMealPlanTextSize()
+        {
+            List<StackPanel> days = new List<StackPanel>();
+            double totalHeight = 0;
+            StackPanelMealPlan.UpdateLayout();
+            foreach (var item in StackPanelMealPlan.Children)
+            {
+                if(item.GetType() == typeof(StackPanel))
+                {
+                    StackPanel sp = (StackPanel)item;
+                    totalHeight += sp.ActualHeight + 12;
+                    days.Add(sp);
+                    TextBlock tb = sp.Children[1] as TextBlock;
+                    //Width
+                    while(tb.IsTextTrimmed && tb.FontSize > 10)
+                    {
+                        tb.FontSize--;
+                        tb.UpdateLayout();
+                    }
+                }
+            }
+
+            while(totalHeight > StackPanelMealPlan.MaxHeight)
+            {
+                totalHeight = 0;
+                //Height
+                foreach (StackPanel item in days)
+                {
+                    TextBlock tbMeal = (TextBlock)item.Children[1];
+                    tbMeal.TextTrimming = TextTrimming.CharacterEllipsis;
+                    tbMeal.FontSize--;
+                    tbMeal.UpdateLayout();
+                    TextBlock tbDay = (TextBlock)item.Children[0];
+                    tbDay.FontSize--;
+                    tbDay.UpdateLayout();
+                    totalHeight += item.ActualHeight + 12;
+                }
+            }
         }
         /// <summary>
         /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.
@@ -281,7 +352,7 @@ namespace AspITInfoScreen
 
                 ImageModulePlan.Source = bitmap;
             }
-            catch (Exception)
+            catch (Exception error)
             {
 
                 DataValidation.SaveError(error.ToString());
@@ -302,7 +373,7 @@ namespace AspITInfoScreen
                 TBlockAdminMessageDate.Text = msg.Date.ToString("dd/MM/yyyy");
                 TBlockAdminMessageAuthor.Text = msg.Username;
             }
-            catch (Exception)
+            catch (Exception error)
             {
                 DataValidation.SaveError(error.ToString());
             }
@@ -320,11 +391,13 @@ namespace AspITInfoScreen
             if (ImageWeather.Visibility == Visibility.Collapsed)
             {
                 ImageWeather.Visibility = Visibility.Visible;
-                ImageModulePlan.Visibility = Visibility.Collapsed;
+                ImageComic.Visibility = Visibility.Collapsed;
+                ImageComic2.Visibility = Visibility.Collapsed;
             } else
             {
                 ImageWeather.Visibility = Visibility.Collapsed;
-                ImageModulePlan.Visibility = Visibility.Visible;
+                ImageComic.Visibility = Visibility.Visible;
+                ImageComic2.Visibility = Visibility.Visible;
             }
         }
         /// <summary>
@@ -343,7 +416,7 @@ namespace AspITInfoScreen
 
                 rSSFeedHandler.NewsList.Remove(item);
             }
-            catch (Exception err)
+            catch (Exception error)
             {
                 DataValidation.SaveError(error.ToString());
             }
@@ -359,7 +432,7 @@ namespace AspITInfoScreen
                 StackPanel parent = (StackPanel)TBlockNewsContent.Parent;
                 double parentHeight = parent.ActualHeight;
 
-                if(parentHeight > 100)
+                if (parentHeight > 100)
                 {
                     //StkPnl --> TxtBlock
                     TBlockNewsTitle.MaxHeight = parentHeight * 0.20; //20%
@@ -379,7 +452,7 @@ namespace AspITInfoScreen
                 //Updates all changes made to the text containers
                 UpdateTextElements();
 
-                //Incrementally shrink main content until everything fits - no matter the size
+                //Incrementally shrink main content until everything fits - Or minimum size reached
                 while (TBlockNewsContent.IsTextTrimmed && TBlockNewsContent.FontSize > 10)
                 {
                     TBlockNewsContent.FontSize--;
@@ -391,19 +464,23 @@ namespace AspITInfoScreen
                     //Title can't be smaller than Author or Date text element
                     if (TBlockNewsTitle.FontSize - TBlockNewspublishDate.FontSize > 5)
                     {
-                        TBlockNewsTitle.FontSize--;
-                        //Author and Date can't be smaller than 10 pixels - this minimum limits other elements minimum size as well
-                        if (TBlockNewspublishDate.FontSize > 10 && TBlockNewsAuthor.FontSize > 10)
+                        //Title can't be smaller than Author or Date text element
+                        if (TBlockNewsTitle.FontSize - TBlockNewspublishDate.FontSize > 5)
                         {
-                            TBlockNewspublishDate.FontSize--;
+                            TBlockNewsTitle.FontSize--;
+                            //Author and Date can't be smaller than 10 pixels - this minimum limits other elements minimum size as well
+                            if (TBlockNewspublishDate.FontSize > 10 && TBlockNewsAuthor.FontSize > 10)
+                            {
+                                TBlockNewspublishDate.FontSize--;
 
-                            TBlockNewsAuthor.FontSize--;
+                                TBlockNewsAuthor.FontSize--;
+                            }
                         }
+                        UpdateTextElements();
                     }
-                    UpdateTextElements();
                 }
             }
-            catch (Exception)
+            catch (Exception error)
             {
                 DataValidation.SaveError(error.ToString());
             }
@@ -491,7 +568,7 @@ namespace AspITInfoScreen
                 ArmDotEllipsis.Width = rectangleHour.Height;
                 ArmDotEllipsis.Height = rectangleHour.Height;
             }
-            catch (Exception)
+            catch (Exception error)
             {
                 DataValidation.SaveError(error.ToString());
             }
@@ -526,7 +603,7 @@ namespace AspITInfoScreen
                 minuteHand.Angle = angles[1];
                 hourHand.Angle = angles[2];
             }
-            catch (Exception)
+            catch (Exception error)
             {
                 DataValidation.SaveError(error.ToString());
             }

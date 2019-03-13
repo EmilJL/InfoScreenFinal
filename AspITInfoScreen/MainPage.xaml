@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid x:Name="MyGrid" Margin="10,10,10,10">
         <Grid.ColumnDefinitions>
@@ -19,153 +19,163 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <!-- Logo -->
-        <Image x:Name="ImageLogo"
-               Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+
+        <StackPanel x:Name="StackPanelLeftCol" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+                    Spacing="10"
+                    Margin="10">
+            <!-- Logo -->
+            <Image x:Name="ImageLogo"
+               Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
                Width="auto" Height="auto"
-               Margin="10"
                Source="/Assets/AspITLogo.jpg"/>
-        <!-- Weather and Module -->
-        <Image x:Name="ImageWeather" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,10,0,10"/>
-        <Image x:Name="ImageModulePlan" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-        <!-- Garfield comic-->
-        <Image x:Name="ImageComic" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>
-        <Image x:Name="ImageComic2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,0"/>
-        
-        <!-- Message -->
-        <StackPanel x:Name="StackPanel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2"
+            <!-- News -->
+            <StackPanel x:Name="StackPanelNews"
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    Margin="10,0,10,0"
+                    Spacing="10">
+                <!-- Title -->
+                <TextBlock x:Name="TBlockNewsTitle" Text="title" FontSize="48" FontWeight="Bold" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords"/>
+                <!-- Date and Author -->
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock x:Name="TBlockNewspublishDate" Text="Date" FontSize="20"/>
+                    <TextBlock x:Name="TBlockNewsAuthor" Text="Author" FontSize="20" FontStyle="Italic"/>
+                </StackPanel>
+                <!-- Content -->
+                <TextBlock x:Name="TBlockNewsContent" Text="Content" TextTrimming="WordEllipsis" FontSize="40" TextWrapping="Wrap"/>
+            </StackPanel>
+            <!-- Weather and Module -->
+            <Image x:Name="ImageWeather" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+            <Image x:Name="ImageModulePlan" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+            <!-- Garfield comic-->
+            <StackPanel x:Name="StackPanelComic">
+                <Image x:Name="ImageComic" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                <Image x:Name="ImageComic2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="StackPanelMidCol" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3"
+                    Spacing="10"
+                    Margin="10">
+            <!-- Welcome Message -->
+            <TextBlock x:Name="TBlockWelcomeMessage" FontSize="48" Text="Velkommen til AspIT" HorizontalAlignment="Center"></TextBlock>
+            <!-- Message -->
+            <StackPanel x:Name="StackPanelMessage" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2"
                     VerticalAlignment="Top" HorizontalAlignment="Left"
                     Margin="10"
                     Width="auto" Height="auto"
                     Spacing="5">
-            <!-- Title -->
-            <TextBlock x:Name="TBlockAdminMessageTitle" Text="TextBlock" TextWrapping="Wrap" FontSize="48"/>
-            <!-- Date and author -->
-            <StackPanel Orientation="Horizontal" Spacing="10" Margin="5,0,0,0">
-                <TextBlock x:Name="TBlockAdminMessageDate" Text="dd/MM/yyyy"/>
-                <TextBlock x:Name="TBlockAdminMessageAuthor" Text="JOSA"/>
+                <!-- Title -->
+                <TextBlock x:Name="TBlockAdminMessageTitle" Text="TextBlock" TextWrapping="Wrap" FontSize="48"/>
+                <!-- Date and author -->
+                <StackPanel Orientation="Horizontal" Spacing="10" Margin="5,0,0,0">
+                    <TextBlock x:Name="TBlockAdminMessageDate" Text="dd/MM/yyyy"/>
+                    <TextBlock x:Name="TBlockAdminMessageAuthor" Text="JOSA"/>
+                </StackPanel>
+                <!-- Message -->
+                <TextBlock x:Name="TBlockAdminMessage" Margin="10,0,0,0" Text="TextBlock" TextWrapping="Wrap" FontSize="40"/>
             </StackPanel>
-            <!-- Message -->
-            <TextBlock x:Name="TBlockAdminMessage" Margin="10,0,0,0" Text="TextBlock" TextWrapping="Wrap" FontSize="40"/>
         </StackPanel>
-        
-        <!-- -Analogue clock -->
-        <Grid x:Name="ParentGrid" Grid.Column="3" Width="auto" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <Ellipse x:Name="AnalogueClockEllipsis" Width="auto" Height="auto" Stroke="Black" StrokeThickness="5"></Ellipse>
-            <!-- Second  -->
-            <Rectangle Margin="0,0,0,0" x:Name="rectangleSecond"
+        <StackPanel x:Name="StackPanelRightcol" Grid.Column="3" Grid.Row="0" Grid.RowSpan="3"
+                    Spacing="35"
+                    Margin="10">
+            <!-- -Analogue and Digital clock -->
+            <Grid x:Name="ParentGrid" Width="auto" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Ellipse x:Name="AnalogueClockEllipsis" Width="auto" Height="auto" Stroke="Black" StrokeThickness="5"></Ellipse>
+                <!-- Second  -->
+                <Rectangle Margin="0,0,0,0" x:Name="rectangleSecond"
                 Stroke="Black" Height="10" Fill="Black">
-                <Rectangle.RenderTransform>
-                    <RotateTransform x:Name="secondHand" CenterX="0"  
+                    <Rectangle.RenderTransform>
+                        <RotateTransform x:Name="secondHand" CenterX="0"  
                 CenterY="0" Angle="0"/>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <!----> 
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <!----> 
          
             <!-- Minute  -->
-            <Rectangle Margin="0,0,0,0" Name="rectangleMinute"  
+                <Rectangle Margin="0,0,0,0" Name="rectangleMinute"  
                 Stroke="Black" Fill="Black" Height="12">
-                <Rectangle.RenderTransform>
-                    <RotateTransform x:Name="minuteHand" CenterX="0"  
+                    <Rectangle.RenderTransform>
+                        <RotateTransform x:Name="minuteHand" CenterX="0"  
                         CenterY="0" Angle="0" />
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <!---->
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <!---->
 
             <!-- Hour  -->
-            <Rectangle Margin="0,0,0,0" Name="rectangleHour"  
+                <Rectangle Margin="0,0,0,0" Name="rectangleHour"  
                 Stroke="Red" Fill="Red" Height="15">
-                <Rectangle.RenderTransform>
-                    <RotateTransform x:Name="hourHand" CenterX="0"  
+                    <Rectangle.RenderTransform>
+                        <RotateTransform x:Name="hourHand" CenterX="0"  
                         CenterY="0" Angle="0" />
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <!---->
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <!---->
             
             <!-- Stylistic dot -->
-            <Ellipse x:Name="ArmDotEllipsis" Width="40" Height="40" Stroke="Green" StrokeThickness="1" Fill="Green"></Ellipse>
-            <!---->
+                <Ellipse x:Name="ArmDotEllipsis" Width="40" Height="40" Stroke="Green" StrokeThickness="1" Fill="Green"></Ellipse>
+                <!---->
             
             <!-- Timestamps -->
-            <TextBlock x:Name="TBlockTwelve" Text="12" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockOne" Text="1" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockTwo" Text="2" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockThree" Text="3" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockFour" Text="4" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockFive" Text="5" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockSix" Text="6" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockSeven" Text="7" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockEight" Text="8" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockNine" Text="9" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockTen" Text="10" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <TextBlock x:Name="TBlockEleven" Text="11" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
-            <!---->
-         
-        </Grid>
-        <!-- Digital clock-->
-        <TextBlock x:Name="TBlockTime" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0" Text="HH:MM:SS" TextWrapping="NoWrap" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto" Height="auto"/>
-        
-        <!-- MealPlan -->
-        <StackPanel x:Name="StackPanelMealPlan" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2"
+                <TextBlock x:Name="TBlockTwelve" Text="12" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockOne" Text="1" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockTwo" Text="2" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockThree" Text="3" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockFour" Text="4" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockFive" Text="5" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockSix" Text="6" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockSeven" Text="7" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockEight" Text="8" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockNine" Text="9" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockTen" Text="10" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockEleven" Text="11" FontSize="48" FontWeight="ExtraBlack" Foreground="Black" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="auto"/>
+                <!---->
+                
+                <!-- Digital clock-->
+                <TextBlock x:Name="TBlockTime" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0" Text="HH:MM:SS" TextWrapping="NoWrap" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto" Height="auto"/>
+            </Grid>
+            <!-- MealPlan -->
+            <StackPanel x:Name="StackPanelMealPlan" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2"
                     BorderBrush="Black" BorderThickness="1"
                     Orientation="Vertical"
-                    HorizontalAlignment="Stretch"
-                    Spacing="10"
-                    Margin="20">
-            <!-- Monday -->
-            <StackPanel x:Name="StackPanelMonday" Orientation="Horizontal">
-                <TextBlock x:Name="TBlockMonday" Text="Mandag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                <TextBlock x:Name="TBlockMondayMeal" Text="404" FontSize="48"/>
-            </StackPanel>
-            
-            <Border BorderBrush="Black" BorderThickness="1"/>
-            <!-- Tuesdau -->
-            <StackPanel x:Name="StackPanelTuesday" Orientation="Horizontal">
-                <TextBlock x:Name="TBlockTuesday" Text="Tirsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                <TextBlock x:Name="TBlockTuesdayMeal" Text="404" FontSize="48"/>
-            </StackPanel>
-            
-            <Border BorderBrush="Black" BorderThickness="1"/>
-            <!-- Wednesday -->
-            <StackPanel x:Name="StackPanelWednesday" Orientation="Horizontal">
-                <TextBlock x:Name="TBlockWednesday" Text="Onsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                <TextBlock x:Name="TBlockWednesdayMeal" Text="404" FontSize="48"/>
-            </StackPanel>
-            
-            <Border BorderBrush="Black" BorderThickness="1"/>
-            <!-- Thursday -->
-            <StackPanel x:Name="StackPanelThursday" Orientation="Horizontal">
-                <TextBlock x:Name="TBlockThursday" Text="Torsdag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                <TextBlock x:Name="TBlockThursdayMeal" Text="404" FontSize="48"/>
-            </StackPanel>
-            
-            <Border BorderBrush="Black" BorderThickness="1"/>
-            <!-- Friday -->
-            <StackPanel x:Name="StackPanelFridayday" Orientation="Horizontal">
-                <TextBlock x:Name="TBlockFriday" Text="Fredag:" TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
-                <TextBlock x:Name="TBlockFridayMeal" Text="404" FontSize="48"/>
-            </StackPanel>
-            
-            <Border BorderBrush="Black" BorderThickness="1"/>
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Spacing="5">
+                <!-- Monday -->
+                <StackPanel x:Name="StackPanelMonday" Orientation="Horizontal">
+                    <TextBlock x:Name="TBlockMonday" Text="Man." TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                    <TextBlock x:Name="TBlockMondayMeal" Text="404" FontSize="40"/>
+                </StackPanel>
 
-        </StackPanel>
-        
-        <!-- News -->
-        <StackPanel x:Name="StackPanelNews" Grid.Column="3" Grid.Row="1"
-                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                    Margin="10" Spacing="10">
-            <!-- Title -->
-            <TextBlock x:Name="TBlockNewsTitle" Text="title" FontSize="48" FontWeight="Bold" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords"/>
-            <!-- Date and Author -->
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <TextBlock x:Name="TBlockNewspublishDate" Text="Date" FontSize="20"/>
-                <TextBlock x:Name="TBlockNewsAuthor" Text="Author" FontSize="20" FontStyle="Italic"/>
+                <Border BorderBrush="Black" BorderThickness="1"/>
+                <!-- Tuesday -->
+                <StackPanel x:Name="StackPanelTuesday" Orientation="Horizontal">
+                    <TextBlock x:Name="TBlockTuesday" Text="Tir." TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                    <TextBlock x:Name="TBlockTuesdayMeal" Text="404" FontSize="40"/>
+                </StackPanel>
+
+                <Border BorderBrush="Black" BorderThickness="1"/>
+                <!-- Wednesday -->
+                <StackPanel x:Name="StackPanelWednesday" Orientation="Horizontal">
+                    <TextBlock x:Name="TBlockWednesday" Text="Ons." TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                    <TextBlock x:Name="TBlockWednesdayMeal" Text="404" FontSize="40"/>
+                </StackPanel>
+
+                <Border BorderBrush="Black" BorderThickness="1"/>
+                <!-- Thursday -->
+                <StackPanel x:Name="StackPanelThursday" Orientation="Horizontal">
+                    <TextBlock x:Name="TBlockThursday" Text="Tor." TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                    <TextBlock x:Name="TBlockThursdayMeal" Text="404" FontSize="40"/>
+                </StackPanel>
+
+                <Border BorderBrush="Black" BorderThickness="1"/>
+                <!-- Friday -->
+                <StackPanel x:Name="StackPanelFridayday" Orientation="Horizontal">
+                    <TextBlock x:Name="TBlockFriday" Text="Fre." TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
+                    <TextBlock x:Name="TBlockFridayMeal" Text="404" FontSize="40"/>
+                </StackPanel>
+
+                <Border BorderBrush="Black" BorderThickness="1"/>
+
             </StackPanel>
-            <!-- Content -->
-            <TextBlock x:Name="TBlockNewsContent" Text="Content" TextTrimming="WordEllipsis" FontSize="40" TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
 </Page>

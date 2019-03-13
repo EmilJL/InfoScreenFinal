@@ -28,12 +28,12 @@
             <Image x:Name="ImageLogo"
                Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
                Width="auto" Height="auto"
-               Margin="0"
                Source="/Assets/AspITLogo.jpg"/>
             <!-- News -->
             <StackPanel x:Name="StackPanelNews"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                    Margin="10" Spacing="10">
+                    Margin="10,0,10,0"
+                    Spacing="10">
                 <!-- Title -->
                 <TextBlock x:Name="TBlockNewsTitle" Text="title" FontSize="48" FontWeight="Bold" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords"/>
                 <!-- Date and Author -->
@@ -45,12 +45,12 @@
                 <TextBlock x:Name="TBlockNewsContent" Text="Content" TextTrimming="WordEllipsis" FontSize="40" TextWrapping="Wrap"/>
             </StackPanel>
             <!-- Weather and Module -->
-            <Image x:Name="ImageWeather" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,10,0,10"/>
+            <Image x:Name="ImageWeather" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,0,0,0"/>
             <Image x:Name="ImageModulePlan" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,0,0,0"/>
             <!-- Garfield comic-->
             <StackPanel x:Name="StackPanelComic">
                 <Image x:Name="ImageComic" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>
-                <Image x:Name="ImageComic2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                <Image x:Name="ImageComic2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>
             </StackPanel>
         </StackPanel>
         <StackPanel x:Name="StackPanelMidCol" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3"
@@ -76,7 +76,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel x:Name="StackPanelRightcol" Grid.Column="3" Grid.Row="0" Grid.RowSpan="3"
-                    Spacing="40"
+                    Spacing="35"
                     Margin="10">
             <!-- -Analogue and Digital clock -->
             <Grid x:Name="ParentGrid" Width="auto" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Center">

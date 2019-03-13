@@ -62,6 +62,7 @@ namespace AspITInfoScreen
             model = dbHandler.Model;
             counter = 1;
             SetDpTimer();
+            UpdateLayout();
         }
 
         private void SetDpTimer()
@@ -141,6 +142,7 @@ namespace AspITInfoScreen
                 Uri address = new Uri("http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=2630&mode=short");
 
                 weather.DecodePixelType = DecodePixelType.Logical;
+                //Change to stackpanel
                 int cWidth = (int)MyGrid.ColumnDefinitions.Select(c => c.ActualWidth).FirstOrDefault() * 2;
                 int rHeight = (int)MyGrid.RowDefinitions.Select(c => c.ActualHeight).FirstOrDefault() * 2;
                 weather.DecodePixelWidth = cWidth;
@@ -189,10 +191,13 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetStackPanelLeft()
         {
-            double pHeight = StackPanelLeftCol.ActualHeight * 0.33;
+            double pHeight = (StackPanelLeftCol.ActualHeight * 0.33) - StackPanelLeftCol.Spacing;
 
             ImageLogo.MaxHeight = pHeight;
             StackPanelNews.MinHeight = pHeight;
+            StackPanelNews.MaxHeight = pHeight;
+            ImageWeather.MaxHeight = pHeight;
+            StackPanelComic.MaxHeight = pHeight;
         }
         /// <summary>
         /// Set height for child element in the stackpanel

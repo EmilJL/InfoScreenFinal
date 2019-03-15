@@ -112,14 +112,14 @@ namespace AspITInfoScreen
         }
         private void UpdateUiContent()
         {
+            SetStackPanelLeft();
+            SetStackPanelMiddle();
+            SetStackPanelRight();
             SetWeatherImage();
             SetComicStripImage(ImageComic);
             SetComicStripImage(ImageComic2, 1);
             SetAdminMessage();
             OpenRemoteModule();
-            SetStackPanelLeft();
-            SetStackPanelMiddle();
-            SetStackPanelRight();
             GetMealPlan();
             SetMealPlanSize();
             SetMealPlanTextSize();
@@ -187,6 +187,7 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetStackPanelLeft()
         {
+            StackPanelLeftCol.Height = MyGrid.ActualHeight;
             double pHeight = (StackPanelLeftCol.ActualHeight * 0.33) - StackPanelLeftCol.Spacing;
 
             ImageLogo.MaxHeight = pHeight;
@@ -200,6 +201,7 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetStackPanelMiddle()
         {
+            StackPanelMidCol.Height = MyGrid.ActualHeight;
             double pHeight = StackPanelMidCol.ActualHeight;
 
             StackPanelMessage.MaxHeight = pHeight * 0.8;
@@ -209,6 +211,7 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetStackPanelRight()
         {
+            StackPanelRightcol.Height = MyGrid.ActualHeight;
             double pHeight = StackPanelRightcol.ActualHeight * 0.33;
 
             ParentGrid.MaxHeight = pHeight;
@@ -300,6 +303,7 @@ namespace AspITInfoScreen
                     totalHeight += sp.ActualHeight + 12;
                     days.Add(sp);
                     TextBlock tb = sp.Children[1] as TextBlock;
+                    tb.FontSize = 40;
                     //Width
                     while(tb.IsTextTrimmed && tb.FontSize > 10)
                     {

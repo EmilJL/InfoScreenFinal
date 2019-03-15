@@ -372,12 +372,32 @@ namespace AspITInfoScreen
                 TBlockAdminMessage.Text = msg.Text;
                 TBlockAdminMessageDate.Text = msg.Date.ToString("dd/MM/yyyy");
                 TBlockAdminMessageAuthor.Text = msg.Username;
+                MessageTextFormatting();
             }
             catch (Exception error)
             {
                 DataValidation.SaveError(error.ToString());
             }
-            
+        }
+        private void MessageTextFormatting()
+        {
+            UIElementCollection messagePanel = StackPanelMessage.Children;
+
+            foreach (var item in messagePanel)
+            {
+                if (item.GetType() == typeof(TextBlock))
+                {
+                    TextBlock tb = (TextBlock)item;
+                    tb.TextWrapping = TextWrapping.WrapWholeWords;
+                    tb.TextTrimming = TextTrimming.CharacterEllipsis;
+                    tb.UpdateLayout();
+                    while (tb.IsTextTrimmed && tb.FontSize > 20)
+                    {
+                        tb.FontSize--;
+                        tb.UpdateLayout();
+                    }
+                }
+            }
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -493,17 +513,16 @@ namespace AspITInfoScreen
         {
             try
             {
-                ParentGrid.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.8;
+                ParentGrid.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight;
                 ParentGrid.Width = MyGrid.ColumnDefinitions.FirstOrDefault().ActualWidth;
-                TBlockTime.Height = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.20;
-                TBlockTime.FontSize = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.15;
+                TBlockTime.FontSize = MyGrid.RowDefinitions.FirstOrDefault().ActualHeight * 0.30;
 
                 ParentGrid.UpdateLayout();
                 TBlockTime.UpdateLayout();
 
                 //Parent meassurements
                 int clockParentWidth = (int)ParentGrid.ActualWidth;
-                int clockParentHeight = (int)ParentGrid.ActualHeight;
+                int clockParentHeight = (int)ParentGrid.RowDefinitions.FirstOrDefault().ActualHeight;
 
                 clockHandler.SizeCalc(clockParentWidth, clockParentHeight);
 

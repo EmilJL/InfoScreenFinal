@@ -68,18 +68,22 @@
                 <TextBlock x:Name="TBlockAdminMessageTitle" Text="TextBlock" TextWrapping="Wrap" FontSize="48"/>
                 <!-- Date and author -->
                 <StackPanel Orientation="Horizontal" Spacing="10" Margin="5,0,0,0">
-                    <TextBlock x:Name="TBlockAdminMessageDate" Text="dd/MM/yyyy"/>
-                    <TextBlock x:Name="TBlockAdminMessageAuthor" Text="JOSA"/>
+                    <TextBlock x:Name="TBlockAdminMessageDate" Text="Date" FontSize="20"/>
+                    <TextBlock x:Name="TBlockAdminMessageAuthor" Text="Author" FontSize="20" FontStyle="Italic"/>
                 </StackPanel>
                 <!-- Message -->
                 <TextBlock x:Name="TBlockAdminMessage" Margin="10,0,0,0" Text="TextBlock" TextWrapping="Wrap" FontSize="40"/>
             </StackPanel>
         </StackPanel>
         <StackPanel x:Name="StackPanelRightcol" Grid.Column="3" Grid.Row="0" Grid.RowSpan="3"
-                    Spacing="35"
+                    Spacing="5"
                     Margin="10">
             <!-- -Analogue and Digital clock -->
             <Grid x:Name="ParentGrid" Width="auto" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <Ellipse x:Name="AnalogueClockEllipsis" Width="auto" Height="auto" Stroke="Black" StrokeThickness="5"></Ellipse>
                 <!-- Second  -->
                 <Rectangle Margin="0,0,0,0" x:Name="rectangleSecond"
@@ -131,7 +135,7 @@
                 <!---->
                 
                 <!-- Digital clock-->
-                <TextBlock x:Name="TBlockTime" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0" Text="HH:MM:SS" TextWrapping="NoWrap" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Width="auto" Height="auto"/>
+                <TextBlock x:Name="TBlockTime" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0" Text="HH:MM:SS" TextWrapping="NoWrap" RequestedTheme="Default" FontStyle="Italic" FontWeight="Bold" FontSize="48" Height="auto"/>
             </Grid>
             <!-- MealPlan -->
             <StackPanel x:Name="StackPanelMealPlan" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2"

@@ -264,8 +264,11 @@ namespace AspITInfoScreen
             {
                 StackPanel stackParent = (StackPanel)StackPanelMealPlan.Parent;
                 StackPanelMealPlan.MaxWidth = stackParent.ActualWidth * 0.99;
-                StackPanelMealPlan.MaxHeight = stackParent.ActualHeight * 0.99;
+                StackPanelMealPlan.MaxHeight = stackParent.ActualHeight * 0.65;
+                StackPanelMealPlan.MinHeight = stackParent.ActualHeight * 0.65;
                 double tBlockWidth = StackPanelMealPlan.MaxWidth / 3;
+
+                double stackPanelHeight = (StackPanelMealPlan.MaxHeight / 5) - 12;
 
                 foreach (var item in StackPanelMealPlan.Children)
                 {
@@ -273,6 +276,7 @@ namespace AspITInfoScreen
                     {
                         StackPanel sp = (StackPanel)item;
                         sp.Margin = new Thickness(5, 0, 5, 0);
+                        sp.Height = stackPanelHeight;
                         TextBlock tb = sp.Children[0] as TextBlock;
                         tb.Width = tBlockWidth;
                         tb = sp.Children[1] as TextBlock;
@@ -297,9 +301,14 @@ namespace AspITInfoScreen
                 if(item.GetType() == typeof(StackPanel))
                 {
                     StackPanel sp = (StackPanel)item;
-                    totalHeight += sp.ActualHeight + 12;
+                    totalHeight += sp.ActualHeight;
                     days.Add(sp);
-                    TextBlock tb = sp.Children[1] as TextBlock;
+                    //Day
+                    TextBlock tb = sp.Children[0] as TextBlock;
+                    tb.FontSize = 48;
+                    //Meal
+                    tb = sp.Children[1] as TextBlock;
+                    tb.FontSize = 40;
                     //Width
                     while(tb.IsTextTrimmed && tb.FontSize > 10)
                     {
@@ -315,15 +324,18 @@ namespace AspITInfoScreen
                 //Height
                 foreach (StackPanel item in days)
                 {
+                    TextBlock tbDay = (TextBlock)item.Children[0];
                     TextBlock tbMeal = (TextBlock)item.Children[1];
                     tbMeal.TextTrimming = TextTrimming.CharacterEllipsis;
-                    tbMeal.FontSize--;
-                    tbMeal.UpdateLayout();
-                    TextBlock tbDay = (TextBlock)item.Children[0];
-                    tbDay.FontSize--;
-                    tbDay.UpdateLayout();
-                    totalHeight += item.ActualHeight + 12;
-                }
+
+                    if (tbMeal.FontSize > 10 && tbDay.FontSize > 10)
+                    {
+                        tbMeal.FontSize--;
+                        tbDay.FontSize--;
+                        tbMeal.UpdateLayout();
+                        tbDay.UpdateLayout();
+                        totalHeight += item.ActualHeight;
+                    }                }
             }
         }
         /// <summary>

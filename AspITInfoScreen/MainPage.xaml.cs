@@ -188,6 +188,7 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetStackPanelLeft()
         {
+            StackPanelLeftCol.Height = MyGrid.ActualHeight;
             double pHeight = (StackPanelLeftCol.ActualHeight * 0.33) - StackPanelLeftCol.Spacing;
 
             ImageLogo.MaxHeight = pHeight;
@@ -201,6 +202,7 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetStackPanelMiddle()
         {
+            StackPanelMidCol.Height = MyGrid.ActualHeight;
             double pHeight = StackPanelMidCol.ActualHeight;
 
             StackPanelMessage.MaxHeight = pHeight * 0.8;
@@ -211,6 +213,7 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetStackPanelRight()
         {
+            StackPanelRightcol.Height = MyGrid.ActualHeight;
             double pHeight = StackPanelRightcol.ActualHeight * 0.33;
 
             ParentGrid.MaxHeight = pHeight;

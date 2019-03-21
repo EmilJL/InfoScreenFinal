@@ -112,14 +112,15 @@ namespace AspITInfoScreen
         }
         private void UpdateUiContent()
         {
+            SetStackPanelLeft();
+            SetStackPanelMiddle();
+            SetStackPanelRight();
+
             SetWeatherImage();
             SetComicStripImage(ImageComic);
             SetComicStripImage(ImageComic2, 1);
             SetAdminMessage();
             OpenRemoteModule();
-            SetStackPanelLeft();
-            SetStackPanelMiddle();
-            SetStackPanelRight();
             GetMealPlan();
             SetMealPlanSize();
             SetMealPlanTextSize();
@@ -203,6 +204,7 @@ namespace AspITInfoScreen
             double pHeight = StackPanelMidCol.ActualHeight;
 
             StackPanelMessage.MaxHeight = pHeight * 0.8;
+            StackPanelMessage.MinHeight = pHeight * 0.8;
         }
         /// <summary>
         /// Set height for child element in the stackpanel
@@ -293,50 +295,61 @@ namespace AspITInfoScreen
         }
         private void SetMealPlanTextSize()
         {
-            List<StackPanel> days = new List<StackPanel>();
-            double totalHeight = 0;
-            StackPanelMealPlan.UpdateLayout();
-            foreach (var item in StackPanelMealPlan.Children)
+            try
             {
-                if(item.GetType() == typeof(StackPanel))
+                List<StackPanel> days = new List<StackPanel>();
+                double totalHeight = 0;
+                StackPanelMealPlan.UpdateLayout();
+                foreach (var item in StackPanelMealPlan.Children)
                 {
-                    StackPanel sp = (StackPanel)item;
-                    totalHeight += sp.ActualHeight;
-                    days.Add(sp);
-                    //Day
-                    TextBlock tb = sp.Children[0] as TextBlock;
-                    tb.FontSize = 48;
-                    //Meal
-                    tb = sp.Children[1] as TextBlock;
-                    tb.FontSize = 40;
-                    //Width
-                    while(tb.IsTextTrimmed && tb.FontSize > 10)
+                    if (item.GetType() == typeof(StackPanel))
                     {
-                        tb.FontSize--;
+                        StackPanel sp = (StackPanel)item;
+                        totalHeight += sp.ActualHeight;
+                        days.Add(sp);
+                        //Day
+                        TextBlock tb = sp.Children[0] as TextBlock;
+                        tb.FontSize = 48;
                         tb.UpdateLayout();
+                        //Meal
+                        tb = sp.Children[1] as TextBlock;
+                        tb.FontSize = 40;
+                        tb.UpdateLayout();
+                        //Width
+                        while (tb.IsTextTrimmed && tb.FontSize > 10)
+                        {
+                            tb.FontSize--;
+                            tb.UpdateLayout();
+                        }
+                    }
+                }
+
+                while (totalHeight > StackPanelMealPlan.MaxHeight)
+                {
+                    totalHeight = 0;
+                    //Height
+                    foreach (StackPanel item in days)
+                    {
+                        TextBlock tbDay = (TextBlock)item.Children[0];
+                        TextBlock tbMeal = (TextBlock)item.Children[1];
+                        tbMeal.TextTrimming = TextTrimming.CharacterEllipsis;
+
+                        if (tbMeal.FontSize > 10 && tbDay.FontSize > 10)
+                        {
+                            tbMeal.FontSize--;
+                            tbDay.FontSize--;
+                            tbMeal.UpdateLayout();
+                            tbDay.UpdateLayout();
+                            totalHeight += item.ActualHeight;
+                        }
                     }
                 }
             }
-
-            while(totalHeight > StackPanelMealPlan.MaxHeight)
+            catch (Exception error)
             {
-                totalHeight = 0;
-                //Height
-                foreach (StackPanel item in days)
-                {
-                    TextBlock tbDay = (TextBlock)item.Children[0];
-                    TextBlock tbMeal = (TextBlock)item.Children[1];
-                    tbMeal.TextTrimming = TextTrimming.CharacterEllipsis;
-
-                    if (tbMeal.FontSize > 10 && tbDay.FontSize > 10)
-                    {
-                        tbMeal.FontSize--;
-                        tbDay.FontSize--;
-                        tbMeal.UpdateLayout();
-                        tbDay.UpdateLayout();
-                        totalHeight += item.ActualHeight;
-                    }                }
+                DataValidation.SaveError(error.ToString());
             }
+            
         }
         /// <summary>
         /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.
@@ -393,23 +406,42 @@ namespace AspITInfoScreen
         }
         private void MessageTextFormatting()
         {
-            UIElementCollection messagePanel = StackPanelMessage.Children;
-
-            foreach (var item in messagePanel)
+            try
             {
-                if (item.GetType() == typeof(TextBlock))
+                UIElementCollection messagePanel = StackPanelMessage.Children;
+
+                foreach (var item in messagePanel)
                 {
-                    TextBlock tb = (TextBlock)item;
-                    tb.TextWrapping = TextWrapping.WrapWholeWords;
-                    tb.TextTrimming = TextTrimming.CharacterEllipsis;
-                    tb.UpdateLayout();
-                    while (tb.IsTextTrimmed && tb.FontSize > 20)
+                    if (item.GetType() == typeof(TextBlock))
                     {
-                        tb.FontSize--;
+                        bool overflow = false;
+                        TextBlock tb = (TextBlock)item;
+                        tb.TextWrapping = TextWrapping.WrapWholeWords;
+                        tb.TextTrimming = TextTrimming.CharacterEllipsis;
+                        tb.FontSize = 40;
                         tb.UpdateLayout();
+                        if (tb.ActualHeight > StackPanelMessage.MaxHeight * 0.9)
+                        {
+                            overflow = true;
+                        }
+                        while ((tb.IsTextTrimmed || overflow) && tb.FontSize > 10)
+                        {
+                            tb.FontSize--;
+                            tb.UpdateLayout();
+                            if (tb.ActualHeight <= StackPanelMessage.MaxHeight * 0.9)
+                            {
+                                overflow = false;
+                            }
+                        }
                     }
                 }
             }
+            catch (Exception error)
+            {
+
+                DataValidation.SaveError(error.ToString());
+            }
+            
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {

@@ -58,9 +58,8 @@ namespace AspITInfoScreen
             rSSFeedHandler = new RSSFeedHandler("http://feeds.tv2.dk/nyhederne_seneste/rss");
             clockHandler = new ClockHandler();
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = calendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + calendarHandler.GetWeekNumber();
-            counter = 1;
+            counter = 0;
             SetDpTimer();
-            UpdateLayout();
         }
 
         private void SetDpTimer()
@@ -72,28 +71,31 @@ namespace AspITInfoScreen
 
         private void Dispatcher_Elapsed(object sender, object e)
         {
-            //What is this?
-            if (counter == 1)
+            //Correctly update layout on start
+            if (counter == 0)
             {
-                counter++;
+                UpdateUiContent();
             }
             //Update clock
             UpdateAnalogueClock();
             TBlockTime.Text = calendarHandler.GetStringDate("hh:mm:ss");
 
-            if( counter % 10 == 0)
+            if( counter % 20 == 0) //20 seconds
             {
-                UpdateUiContent();
                 WeatherAndModuleToggle();
                 
                 //News
-                if (rSSFeedHandler.NewsList.Count > 0)
+                if(counter % 30 == 0) //30 seconds
                 {
-                    SetNews();
-                    NewsTextFormatting();
-                } else
-                {
-                    rSSFeedHandler.GetFeed();
+                    if (rSSFeedHandler.NewsList.Count > 0)
+                    {
+                        SetNews();
+                        NewsTextFormatting();
+                    }
+                    else //If empty
+                    {
+                        rSSFeedHandler.GetFeed();
+                    }
                 }
             }
             //Time between global update : 5 min.

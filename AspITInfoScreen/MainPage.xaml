@@ -76,7 +76,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel x:Name="StackPanelRightcol" Grid.Column="3" Grid.Row="0" Grid.RowSpan="3"
-                    Spacing="5"
+                    Spacing="0"
                     Margin="10">
             <!-- -Analogue and Digital clock -->
             <Grid x:Name="ParentGrid" Width="auto" Height="auto" VerticalAlignment="Top" HorizontalAlignment="Center">
@@ -176,8 +176,6 @@
                     <TextBlock x:Name="TBlockFriday" Text="Fre." TextDecorations="Underline" FontStyle="Italic" FontSize="48"/>
                     <TextBlock x:Name="TBlockFridayMeal" Text="404" FontSize="40"/>
                 </StackPanel>
-
-                <Border BorderBrush="Black" BorderThickness="1"/>
 
             </StackPanel>
         </StackPanel>

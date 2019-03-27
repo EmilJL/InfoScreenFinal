@@ -116,6 +116,7 @@
     <Compile Include="Entities\ViewAdminMessageJoin.cs" />
     <Compile Include="Entities\ViewMealsVsLunchPlansJoin.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="PrivateInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\AspITInfoScreen.DAL.rd.xml" />
   </ItemGroup>

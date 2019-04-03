@@ -21,17 +21,20 @@ namespace AspITInfoScreen.DAL
             LunchPlans = model.LunchPlans;
             Messages = model.Messages;
             MealsVsLunchPlans = model.MealsVsLunchPlans;
+            IpAddresses = model.IpAddresses;
         }
-        public Model(ObservableCollection<LunchPlan> lunchPlans, ObservableCollection<Message> messages, ObservableCollection<Meal> meals, ObservableCollection<MealsVsLunchPlans> mealsVsLunchPlans)
+        public Model(ObservableCollection<LunchPlan> lunchPlans, ObservableCollection<Message> messages, ObservableCollection<Meal> meals, ObservableCollection<MealsVsLunchPlans> mealsVsLunchPlans, ObservableCollection<IpAddress> ipAddresses)
         {
             LunchPlans = lunchPlans;
             Messages = messages;
             Meals = meals;
             MealsVsLunchPlans = mealsVsLunchPlans;
+            IpAddresses = ipAddresses;
         }
         public ObservableCollection<Meal> Meals { get; private set; }
         public ObservableCollection<LunchPlan> LunchPlans { get; private set; }
         public ObservableCollection<Message> Messages { get; private set; }
         public ObservableCollection<MealsVsLunchPlans> MealsVsLunchPlans { get; private set; }
+        public ObservableCollection<IpAddress> IpAddresses { get; private set; }
     }
 }

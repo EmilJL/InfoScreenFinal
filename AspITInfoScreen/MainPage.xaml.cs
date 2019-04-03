@@ -38,6 +38,7 @@ namespace AspITInfoScreen
         private MessageHandler messageHandler;
         private CalendarHandler calendarHandler;
         private RSSFeedHandler rSSFeedHandler;
+        private IPHandler iPHandler;
         private List<ViewMealsVsLunchPlansJoin> menu;
         private ClockHandler clockHandler;
         int counter;
@@ -56,8 +57,10 @@ namespace AspITInfoScreen
             messageHandler = new MessageHandler();
             calendarHandler = new CalendarHandler();
             rSSFeedHandler = new RSSFeedHandler("http://feeds.tv2.dk/nyhederne_seneste/rss");
+            iPHandler = new IPHandler();
             clockHandler = new ClockHandler();
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = calendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + calendarHandler.GetWeekNumber();
+            UpdateIp();
             counter = 0;
             SetDpTimer();
         }
@@ -106,6 +109,10 @@ namespace AspITInfoScreen
 
                 //Update User Interface
                 UpdateUiContent();
+
+                //Update IP
+                UpdateIp();
+
                 counter = 1;
             } else
             {
@@ -676,6 +683,24 @@ namespace AspITInfoScreen
                 DataValidation.SaveError(error.ToString());
             }
             
+        }
+        private void UpdateIp()
+        {
+            try
+            {
+                if (iPHandler.HasIp())
+                {
+                    iPHandler.UpdateIP(IPHandler.CheckIP());
+                }
+                else
+                {
+                    iPHandler.CreateNewIp(IPHandler.CheckIP());
+                }
+            }
+            catch (Exception error)
+            {
+                DataValidation.SaveError(error.ToString());
+            }
         }
     }
 }

@@ -109,6 +109,7 @@
     <Compile Include="CalendarHandler.cs" />
     <Compile Include="ClockHandler.cs" />
     <Compile Include="DBHandler.cs" />
+    <Compile Include="IPHandler.cs" />
     <Compile Include="LunchPlanHandler.cs" />
     <Compile Include="MealHandler.cs" />
     <Compile Include="MessageHandler.cs" />

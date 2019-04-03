@@ -20,10 +20,12 @@ namespace AspITInfoScreen.DAL
             const string GetMessagesQuery = "SELECT * from Messages";
             const string GetMealsVsLunchPlansQuery = "SELECT * from MealsVsLunchPlans";
             const string GetMealsQuery = "SELECT * from Meals";
+            const string GetIpQuery = "SELECT * FROM DeviceIP";
             var lunchPlans = new ObservableCollection<LunchPlan>();
             var messages = new ObservableCollection<Message>();
             var mealsVsLunchPlansCollection = new ObservableCollection<MealsVsLunchPlans>();
             var meals = new ObservableCollection<Meal>();
+            var ip = new ObservableCollection<IpAddress>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -91,6 +93,19 @@ namespace AspITInfoScreen.DAL
                                     meals.Add(meal);
                                 }
                             }
+                            cmd.CommandText = GetIpQuery;
+                            using(SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var address = new IpAddress
+                                    {
+                                        Id = reader.GetInt32(0),
+                                        Ip = reader.GetString(1)
+                                    };
+                                    ip.Add(address);
+                                }
+                            }
                         }
                     }
                 }
@@ -100,7 +115,7 @@ namespace AspITInfoScreen.DAL
                 DataValidation.SaveError(eSql.ToString());
                 //DataValidation.SaveError("Exception: " + eSql.GetType() + "\n  " + eSql.Message + "\r\n" + eSql.StackTrace + "\r\n In " + ToString());
             }
-            Model model = new Model(lunchPlans, messages, meals, mealsVsLunchPlansCollection);
+            Model model = new Model(lunchPlans, messages, meals, mealsVsLunchPlansCollection, ip);
             return model;
         }
         /// <summary>
@@ -132,6 +147,57 @@ namespace AspITInfoScreen.DAL
                 }
             }
             return message;
+        }
+
+        public bool SetActiveIP(IpAddress ip)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    if (conn.State == System.Data.ConnectionState.Open)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("UPDATE DeviceIP SET Device = @Device WHERE Id = @Id", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@Device", ip.Ip);
+                            cmd.Parameters.AddWithValue("@Id", ip.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception eSql)
+            {
+                Debug.WriteLine("Exception: " + eSql.Message);
+                return false;
+            }
+        }
+
+        public bool CreateNewIP(string ip)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    if (conn.State == System.Data.ConnectionState.Open)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("INSERT INTO DeviceIP (Device) VALUES (@Device)", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@Device", ip);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception eSql)
+            {
+                Debug.WriteLine("Exception: " + eSql.Message);
+                return false;
+            }
         }
     }
 }

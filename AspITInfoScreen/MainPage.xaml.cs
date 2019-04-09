@@ -78,6 +78,7 @@ namespace AspITInfoScreen
             if (counter == 0)
             {
                 UpdateUiContent();
+                UpdateUiContent();
             }
             //Update clock
             UpdateAnalogueClock();
@@ -279,7 +280,7 @@ namespace AspITInfoScreen
                 StackPanel stackParent = (StackPanel)StackPanelMealPlan.Parent;
                 StackPanelMealPlan.MaxWidth = stackParent.ActualWidth * 0.99;
                 StackPanelMealPlan.MaxHeight = stackParent.ActualHeight * 0.65;
-                StackPanelMealPlan.MinHeight = stackParent.ActualHeight * 0.65;
+                StackPanelMealPlan.MinHeight = stackParent.ActualHeight * 0.6;
                 double tBlockWidth = StackPanelMealPlan.MaxWidth / 3;
 
                 double stackPanelHeight = (StackPanelMealPlan.MaxHeight / 5) - 12;
@@ -321,11 +322,13 @@ namespace AspITInfoScreen
                         days.Add(sp);
                         //Day
                         TextBlock tb = sp.Children[0] as TextBlock;
-                        tb.FontSize = 48;
+                        tb.FontSize = TBlockAdminMessage.FontSize + 5;
+                        tb.VerticalAlignment = VerticalAlignment.Center;
                         tb.UpdateLayout();
                         //Meal
                         tb = sp.Children[1] as TextBlock;
-                        tb.FontSize = 40;
+                        tb.FontSize = TBlockAdminMessage.FontSize;
+                        tb.VerticalAlignment = VerticalAlignment.Center;
                         tb.UpdateLayout();
                         //Width
                         while (tb.IsTextTrimmed && tb.FontSize > 10)
@@ -664,7 +667,6 @@ namespace AspITInfoScreen
             TBlockAdminMessageAuthor.UpdateLayout();
             TBlockAdminMessageDate.UpdateLayout();
             TBlockAdminMessageTitle.UpdateLayout();
-
         }
         /// <summary>
         /// Moves the arms on the analogue clock

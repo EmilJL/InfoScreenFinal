@@ -81,7 +81,7 @@ namespace AspITInfoScreen
             }
             //Update clock
             UpdateAnalogueClock();
-            TBlockTime.Text = calendarHandler.GetStringDate("hh:mm:ss");
+            TBlockTime.Text = calendarHandler.GetStringDate("HH:mm:ss");
 
             if( counter % 20 == 0) //20 seconds
             {
@@ -111,7 +111,7 @@ namespace AspITInfoScreen
                 UpdateUiContent();
 
                 //Update IP
-                UpdateIp();
+                //UpdateIp();
 
                 counter = 1;
             } else

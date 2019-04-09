@@ -214,8 +214,8 @@ namespace AspITInfoScreen
             StackPanelMidCol.Height = MyGrid.ActualHeight;
             double pHeight = StackPanelMidCol.ActualHeight;
 
-            StackPanelMessage.MaxHeight = pHeight * 0.9;
-            StackPanelMessage.MinHeight = pHeight * 0.85;
+            StackPanelMessage.MaxHeight = pHeight * 0.85;
+            StackPanelMessage.MinHeight = pHeight * 0.8;
         }
         /// <summary>
         /// Set height for child element in the stackpanel

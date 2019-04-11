@@ -87,7 +87,6 @@ namespace AspITInfoScreen
             if( counter % 20 == 0) //20 seconds
             {
                 WeatherAndModuleToggle();
-                UpdateUiContent();
 
                 //News
                 if (counter % 30 == 0) //30 seconds

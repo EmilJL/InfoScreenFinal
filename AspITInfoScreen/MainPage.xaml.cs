@@ -202,10 +202,14 @@ namespace AspITInfoScreen
             double pHeight = (StackPanelLeftCol.ActualHeight * 0.33) - StackPanelLeftCol.Spacing;
 
             ImageLogo.MaxHeight = pHeight;
+
             StackPanelNews.MinHeight = pHeight;
             StackPanelNews.MaxHeight = pHeight;
+
             ImageWeather.MaxHeight = pHeight;
+            ImageWeather.MinHeight = pHeight;
             StackPanelComic.MaxHeight = pHeight;
+            StackPanelComic.MinHeight = pHeight;
         }
         /// <summary>
         /// Set height for child element in the stackpanel

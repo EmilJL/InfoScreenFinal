@@ -87,9 +87,10 @@ namespace AspITInfoScreen
             if( counter % 20 == 0) //20 seconds
             {
                 WeatherAndModuleToggle();
-                
+                UpdateUiContent();
+
                 //News
-                if(counter % 30 == 0) //30 seconds
+                if (counter % 30 == 0) //30 seconds
                 {
                     if (rSSFeedHandler.NewsList.Count > 0)
                     {
@@ -207,9 +208,7 @@ namespace AspITInfoScreen
             StackPanelNews.MaxHeight = pHeight;
 
             ImageWeather.MaxHeight = pHeight;
-            ImageWeather.MinHeight = pHeight;
             StackPanelComic.MaxHeight = pHeight;
-            StackPanelComic.MinHeight = pHeight;
         }
         /// <summary>
         /// Set height for child element in the stackpanel

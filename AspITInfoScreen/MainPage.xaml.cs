@@ -112,7 +112,7 @@ namespace AspITInfoScreen
                 UpdateUiContent();
 
                 //Update IP
-                //UpdateIp();
+                UpdateIp();
 
                 counter = 1;
             } else

@@ -413,7 +413,7 @@ namespace AspITInfoScreen
                         tb.TextTrimming = TextTrimming.CharacterEllipsis;
                         tb.FontSize = 40;
                         tb.UpdateLayout();
-                        if (tb.ActualHeight > StackPanelMessage.MaxHeight * 0.86)
+                        if (tb.ActualHeight > StackPanelMessage.MaxHeight * 0.9)
                         {
                             overflow = true;
                         }
@@ -421,7 +421,7 @@ namespace AspITInfoScreen
                         {
                             tb.FontSize--;
                             tb.UpdateLayout();
-                            if (tb.ActualHeight < StackPanelMessage.MaxHeight * 0.86)
+                            if (tb.ActualHeight < StackPanelMessage.MaxHeight * 0.9)
                             {
                                 overflow = false;
                             }

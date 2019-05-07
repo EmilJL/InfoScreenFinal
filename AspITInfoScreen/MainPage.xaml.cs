@@ -36,7 +36,7 @@ namespace AspITInfoScreen
         private LunchPlanHandler lunchPlanHandler;
         private MealHandler mealHandler;
         private MessageHandler messageHandler;
-        private CalendarHandler calendarHandler;
+        private ImageHandler imageHandler;
         private RSSFeedHandler rSSFeedHandler;
         private IPHandler iPHandler;
         private List<ViewMealsVsLunchPlansJoin> menu;
@@ -55,11 +55,11 @@ namespace AspITInfoScreen
             mealHandler = new MealHandler();
             dbHandler = new DBHandler();
             messageHandler = new MessageHandler();
-            calendarHandler = new CalendarHandler();
+            imageHandler = new ImageHandler();
             rSSFeedHandler = new RSSFeedHandler("http://feeds.tv2.dk/nyhederne_seneste/rss");
             iPHandler = new IPHandler();
             clockHandler = new ClockHandler();
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = calendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + calendarHandler.GetWeekNumber();
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CalendarHandler.GetStringDate("dd/MM/yyyy") + " - Uge : " + CalendarHandler.GetWeekNumber();
             UpdateIp();
             counter = 0;
             SetDpTimer();
@@ -82,11 +82,11 @@ namespace AspITInfoScreen
             }
             //Update clock
             UpdateAnalogueClock();
-            TBlockTime.Text = calendarHandler.GetStringDate("HH:mm:ss");
+            TBlockTime.Text = CalendarHandler.GetStringDate("HH:mm:ss");
 
             if( counter % 20 == 0) //20 seconds
             {
-                WeatherAndModuleToggle();
+                WeatherAndComicToggle();
 
                 //News
                 if (counter % 30 == 0) //30 seconds
@@ -112,7 +112,7 @@ namespace AspITInfoScreen
                 UpdateUiContent();
 
                 //Update IP
-                UpdateIp();
+                //UpdateIp();
 
                 counter = 1;
             } else
@@ -120,6 +120,9 @@ namespace AspITInfoScreen
                 counter++;
             }
         }
+        /// <summary>
+        /// Update and resize all GUI elements
+        /// </summary>
         private void UpdateUiContent()
         {
             SetStackPanelLeft();
@@ -127,17 +130,19 @@ namespace AspITInfoScreen
             SetStackPanelRight();
 
             SetWeatherImage();
-            SetComicStripImage(ImageComic);
-            SetComicStripImage(ImageComic2, 1);
+            SetComicStripImage(ImageComic, imageHandler.GetComic());
+            SetComicStripImage(ImageComic2, imageHandler.GetComic(1));
+
             SetAdminMessage();
-            OpenRemoteModule();
+
             GetMealPlan();
             SetMealPlanSize();
             SetMealPlanTextSize();
+
             UpdateTextElements();
+
             AnalogueClockSize();
         }
-
         /// <summary>
         /// Retrieves a BitmapImage of the weather chart from DMI.
         /// </summary>
@@ -146,17 +151,16 @@ namespace AspITInfoScreen
             try
             {
                 BitmapImage weather = new BitmapImage();
-                Uri address = new Uri("http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=2630&mode=short");
 
                 weather.DecodePixelType = DecodePixelType.Logical;
                 //Change to stackpanel
-                int cWidth = (int)MyGrid.ColumnDefinitions.Select(c => c.ActualWidth).FirstOrDefault() * 2;
-                int rHeight = (int)MyGrid.RowDefinitions.Select(c => c.ActualHeight).FirstOrDefault() * 2;
-                weather.DecodePixelWidth = cWidth;
-                weather.DecodePixelHeight = rHeight;
-                ImageWeather.MaxWidth = cWidth * 3;
-                ImageWeather.MaxHeight = rHeight * 2;
-                weather.UriSource = address;
+                int spWidth = (int)StackPanelLeftCol.ActualWidth;
+                int spHeight = (int)(StackPanelLeftCol.ActualHeight * 0.33);
+                weather.DecodePixelWidth = spWidth;
+                weather.DecodePixelHeight = spHeight;
+                ImageWeather.MaxWidth = spWidth;
+                ImageWeather.MaxHeight = spHeight;
+                weather.UriSource = imageHandler.GetWeather();
 
                 ImageWeather.Source = weather;
 
@@ -172,13 +176,12 @@ namespace AspITInfoScreen
         /// </summary>
         /// <param name="container">GUI element</param>
         /// <param name="deductDays">Used to retrieve old comics</param>
-        private void SetComicStripImage(Image container, int deductDays = 0)
+        private void SetComicStripImage(Image container, Uri uri)
         {
             try
             {
                 BitmapImage comic = new BitmapImage();
-                string url = "https://" + "d1ejxu6vysztl5.cloudfront.net/comics/garfield/" + calendarHandler.GetStringDate("yyyy") + "/" + calendarHandler.GetDate().AddDays(-deductDays).ToString("yyyy-MM-dd") + ".gif";
-                Uri address = new Uri(url);
+                Uri address = uri;
 
                 comic.DecodePixelType = DecodePixelType.Logical;
                 comic.DecodePixelWidth = (int)MyGrid.ColumnDefinitions.Select(c => c.ActualWidth).FirstOrDefault();
@@ -238,7 +241,7 @@ namespace AspITInfoScreen
         {
             try
             {
-                menu = lunchPlanHandler.GetMealsForWeek(calendarHandler.GetWeekNumber());
+                menu = lunchPlanHandler.GetMealsForWeek(CalendarHandler.GetWeekNumber());
 
                 foreach (var item in menu)
                 {
@@ -308,6 +311,9 @@ namespace AspITInfoScreen
                 DataValidation.SaveError(error.ToString());
             }
         }
+        /// <summary>
+        /// Incrementally resizes text until it fits within the mealplan
+        /// </summary>
         private void SetMealPlanTextSize()
         {
             try
@@ -369,39 +375,6 @@ namespace AspITInfoScreen
             
         }
         /// <summary>
-        /// Retrieves the module schedule from AspIT.dk and converts it into a bitmap to display in the GUI.
-        /// </summary>
-        private async void OpenRemoteModule()
-        {
-            try
-            {
-                HttpClient client = new HttpClient();
-                Uri url = new Uri("http://www.aspit.dk/fileadmin/filbibliotek/KALENDER/2018-Fremad/Efteraar-18-v2.pdf");
-                var stream = await client.GetStreamAsync(url);
-                var memStream = new MemoryStream();
-                await stream.CopyToAsync(memStream);
-                memStream.Position = 0;
-                PdfDocument doc = await PdfDocument.LoadFromStreamAsync(memStream.AsRandomAccessStream());
-
-                BitmapImage bitmap = new BitmapImage();
-                var page = doc.GetPage(0);
-
-                using (Windows.Storage.Streams.InMemoryRandomAccessStream mStream = new Windows.Storage.Streams.InMemoryRandomAccessStream())
-                {
-                    await page.RenderToStreamAsync(mStream);
-                    await bitmap.SetSourceAsync(mStream);
-                }
-
-                ImageModulePlan.Source = bitmap;
-            }
-            catch (Exception error)
-            {
-
-                DataValidation.SaveError(error.ToString());
-            }
-            
-        }
-        /// <summary>
         /// Retrives the custom admin message from the database and sets the relevant AdminMessage element in the GUI.
         /// </summary>
         private void SetAdminMessage()
@@ -421,6 +394,9 @@ namespace AspITInfoScreen
                 DataValidation.SaveError(error.ToString());
             }
         }
+        /// <summary>
+        /// Incrementally resizes text until it fits within the message area
+        /// </summary>
         private void MessageTextFormatting()
         {
             try
@@ -437,7 +413,7 @@ namespace AspITInfoScreen
                         tb.TextTrimming = TextTrimming.CharacterEllipsis;
                         tb.FontSize = 40;
                         tb.UpdateLayout();
-                        if (tb.ActualHeight > StackPanelMessage.MaxHeight * 0.9)
+                        if (tb.ActualHeight > StackPanelMessage.MaxHeight * 0.86)
                         {
                             overflow = true;
                         }
@@ -445,12 +421,13 @@ namespace AspITInfoScreen
                         {
                             tb.FontSize--;
                             tb.UpdateLayout();
-                            if (tb.ActualHeight <= StackPanelMessage.MaxHeight * 0.9)
+                            if (tb.ActualHeight < StackPanelMessage.MaxHeight * 0.86)
                             {
                                 overflow = false;
                             }
                         }
                     }
+                    TBlockAdminMessage.MaxHeight = StackPanelMessage.MaxHeight - TBlockAdminMessageTitle.ActualHeight - TBlockAdminMessageAuthor.ActualHeight;
                 }
             }
             catch (Exception error)
@@ -467,7 +444,7 @@ namespace AspITInfoScreen
         /// <summary>
         /// Toggles visibility of GUI elements weatherforecast and module plan.
         /// </summary>
-        private void WeatherAndModuleToggle()
+        private void WeatherAndComicToggle()
         {
             if (ImageWeather.Visibility == Visibility.Collapsed)
             {
@@ -486,7 +463,6 @@ namespace AspITInfoScreen
         /// </summary>
         private void SetNews()
         {
-            
             try
             {
                 TV2NewsItem item = rSSFeedHandler.NewsList.FirstOrDefault();
@@ -677,7 +653,7 @@ namespace AspITInfoScreen
         {
             try
             {
-                List<double> angles = clockHandler.GetAllRotations(calendarHandler.GetDate());
+                List<double> angles = clockHandler.GetAllRotations(CalendarHandler.GetDate());
                 secondHand.Angle = angles[0];
                 minuteHand.Angle = angles[1];
                 hourHand.Angle = angles[2];
@@ -688,6 +664,9 @@ namespace AspITInfoScreen
             }
             
         }
+        /// <summary>
+        /// Inserts the machines current IP into the database (mostly obsolete with a static IP assigned)
+        /// </summary>
         private void UpdateIp()
         {
             try

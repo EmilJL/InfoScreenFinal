@@ -7,24 +7,17 @@ using System.Globalization;
 
 namespace AspITInfoScreen.Business
 {
-    public class CalendarHandler
+    public static class CalendarHandler
     {
-        private Calendar calendar;
-        private readonly CalendarWeekRule CWR;
-        private readonly DayOfWeek DOW;
-
-        public CalendarHandler()
-        {
-            CultureInfo myCI = new CultureInfo("da-DK");
-            calendar = myCI.Calendar;
-            CWR = myCI.DateTimeFormat.CalendarWeekRule;
-            DOW = myCI.DateTimeFormat.FirstDayOfWeek;
-        }
+        private static readonly CultureInfo myCI = new CultureInfo("da-DK");
+        private static readonly Calendar calendar = myCI.Calendar;
+        private static readonly CalendarWeekRule CWR = myCI.DateTimeFormat.CalendarWeekRule;
+        private static readonly DayOfWeek DOW = myCI.DateTimeFormat.FirstDayOfWeek;
         /// <summary>
         /// Return an int for the week number, based on the defined rules in the constructor
         /// </summary>
         /// <returns>int</returns>
-        public int GetWeekNumber()
+        public static int GetWeekNumber()
         {
             return calendar.GetWeekOfYear(DateTime.Now, CWR, DOW);
         }
@@ -33,12 +26,15 @@ namespace AspITInfoScreen.Business
         /// </summary>
         /// <param name="format">etc. Hour:Minutes:Seconds --> "hh:mm:ss"</param>
         /// <returns></returns>
-        public string GetStringDate(string format)
+        public static string GetStringDate(string format)
         {
             return DateTime.Now.ToString(format);
         }
-
-        public DateTime GetDate()
+        /// <summary>
+        /// Returns a DateTime.Now 
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime GetDate()
         {
             return DateTime.Now;
         }

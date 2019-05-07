@@ -46,7 +46,6 @@
             </StackPanel>
             <!-- Weather and Module -->
             <Image x:Name="ImageWeather" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-            <Image x:Name="ImageModulePlan" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,0,0,0"/>
             <!-- Garfield comic-->
             <StackPanel x:Name="StackPanelComic">
                 <Image x:Name="ImageComic" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0"/>

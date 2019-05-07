@@ -30,7 +30,7 @@ namespace AspITInfoScreen.Business
             }
             catch (Exception err)
             {
-                throw;
+                DataValidation.SaveError(err.ToString());
             }
         }
 
@@ -56,8 +56,10 @@ namespace AspITInfoScreen.Business
             get { return client; }
             set { client = value; }
         }
-
-        public async void GetFeed()
+        /// <summary>
+        /// Retrieves new from TV2 and stores them in the field newsList
+        /// </summary>
+        public void GetFeed()
         {
             try
             {

@@ -10,6 +10,11 @@ namespace AspITInfoScreen.Business
 {
     public class MealHandler : DBHandler
     {
+        /// <summary>
+        /// Returns meals for lunchplan
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<Meal> GetMealsForLunchPlan(int id)
         {
             var mvls = Model.MealsVsLunchPlans.Where(mvl => mvl.LunchPlanId == id);

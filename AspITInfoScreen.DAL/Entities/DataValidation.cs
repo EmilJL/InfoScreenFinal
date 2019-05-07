@@ -10,6 +10,10 @@ namespace AspITInfoScreen.DAL.Entities
 {
     public static class DataValidation
     {
+        /// <summary>
+        /// Saves
+        /// </summary>
+        /// <param name="errorMessage"></param>
         public async static void SaveError(string errorMessage)
         {
             string newCaseStart = $"\r\nDate: {DateTime.Now.ToShortDateString()}\r\n ";

@@ -220,8 +220,8 @@ namespace AspITInfoScreen
             StackPanelMidCol.Height = MyGrid.ActualHeight;
             double pHeight = StackPanelMidCol.ActualHeight;
 
-            StackPanelMessage.MaxHeight = pHeight * 0.85;
-            StackPanelMessage.MinHeight = pHeight * 0.8;
+            StackPanelMessage.MaxHeight = pHeight * 0.9;
+            StackPanelMessage.MinHeight = pHeight * 0.9;
         }
         /// <summary>
         /// Set height for child element in the stackpanel
@@ -413,15 +413,15 @@ namespace AspITInfoScreen
                         tb.TextTrimming = TextTrimming.CharacterEllipsis;
                         tb.FontSize = 40;
                         tb.UpdateLayout();
-                        if (tb.ActualHeight > StackPanelMessage.MaxHeight * 0.9)
+                        if (tb.ActualHeight > StackPanelMessage.MaxHeight * 0.9 - TBlockAdminMessageTitle.ActualHeight - TBlockAdminMessageAuthor.ActualHeight)
                         {
                             overflow = true;
                         }
                         while ((tb.IsTextTrimmed || overflow) && tb.FontSize > 10)
                         {
-                            tb.FontSize--;
+                            tb.FontSize -= 1;
                             tb.UpdateLayout();
-                            if (tb.ActualHeight < StackPanelMessage.MaxHeight * 0.9)
+                            if (tb.ActualHeight < StackPanelMessage.MaxHeight * 0.9 - TBlockAdminMessageTitle.ActualHeight - TBlockAdminMessageAuthor.ActualHeight)
                             {
                                 overflow = false;
                             }
